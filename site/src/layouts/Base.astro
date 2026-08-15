@@ -22,6 +22,8 @@ const kanonik = new URL(Astro.url.pathname, Astro.site ?? "https://tahaboz.com")
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+    <link rel="icon" href={u("/favicon.svg")} type="image/svg+xml" />
+
     {/* Kritik fontları erken çek: font-display:optional ile birleşince
         yedek fonttan gerçek fonta geçiş (dolayısıyla CLS) oluşmaz. */}
     <link rel="preload" href={u("/fonts/inter-latin.woff2")} as="font" type="font/woff2" crossorigin />
