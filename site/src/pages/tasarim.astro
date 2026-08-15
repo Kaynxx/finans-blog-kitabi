@@ -1,0 +1,377 @@
+---
+import Base from "../layouts/Base.astro";
+import AdSlot from "../components/AdSlot.astro";
+import Disclaimer from "../components/Disclaimer.astro";
+import NewsletterForm from "../components/NewsletterForm.astro";
+import DataCard from "../components/DataCard.astro";
+import SourceBlock from "../components/SourceBlock.astro";
+import { tl, sayi, yuzde, buyuk } from "../lib/format";
+
+/**
+ * KAMUYA AÇIK TASARIM VİTRİNİ
+ *
+ * Neden ayrı Storybook değil: bu sayfa üretim bileşenlerinin TA KENDİSİNİ
+ * render eder. Vitrin ile site arasında senkron kopması imkânsız.
+ * (Karar gerekçesi: kitap 08-tasarim §6)
+ */
+
+const TR_TEST = "IĞDIR, İstanbul, ılık öğüş, Şirket, çözüldü — 1.234.567,89 ₺";
+
+const RENKLER = [
+  ["--color-bg-page", "#f7f4ed", "Sayfa zemini"],
+  ["--color-bg-surface", "#ffffff", "Yüzey / kart"],
+  ["--color-bg-sunken", "#efebe1", "Çukur alan"],
+  ["--color-bg-notice", "#fff8e6", "Uyarı zemini"],
+  ["--color-text-primary", "#171717", "Ana metin"],
+  ["--color-text-secondary", "#5b5b57", "İkincil metin"],
+  ["--color-border-subtle", "#d8d4ca", "İnce sınır"],
+  ["--color-brand-primary", "#0b5cad", "Marka / bağlantı"],
+  ["--color-data-positive", "#087a55", "Pozitif"],
+  ["--color-data-negative", "#b42318", "Negatif"],
+  ["--color-data-warning", "#8a5a00", "Uyarı"],
+];
+
+const OLCEK = [
+  ["H1", "--text-h1", "3rem / 48px"],
+  ["H2", "--text-h2", "2rem / 32px"],
+  ["H3", "--text-h3", "1.5625rem / 25px"],
+  ["H4", "--text-h4", "1.25rem / 20px"],
+  ["Gövde", "--text-body", "1.125rem / 18px"],
+  ["Küçük", "--text-sm", "0.875rem / 14px"],
+  ["Meta", "--text-meta", "0.8125rem / 13px"],
+];
+
+const BOSLUK = [1, 2, 3, 4, 6, 8, 12, 16, 24];
+
+const KURALLAR = {
+  yap: [
+    "Her sayının yanında kaynak, dönem ve birim göster",
+    "Metin gövdesini 68ch civarında tut",
+    "Tüm rakamlarda tabular-nums kullan",
+    "Yön bilgisini renk + işaret ile birlikte ver",
+    "Reklam slotuna istekten önce yer ayır",
+    "Türkçe metin dönüşümünde toLocaleUpperCase('tr-TR') kullan",
+    "Font subset'inde latin-ext'i koru",
+  ],
+  yapma: [
+    "Kaynaksız fiyat veya grafik yayımlama",
+    "Auto Ads açma",
+    "İlk viewport'a reklam koyma",
+    "Bülten CTA'sı ile reklamı aynı ekranda yarıştırma",
+    "Yükseliş/düşüşü yalnız renkle anlatma",
+    "Stok fotoğraf, altın para yığını, neon gradyan kullanma",
+    "Üçten fazla font ailesi kullanma",
+  ],
+};
+---
+
+<Base
+  baslik="Tasarım sistemi — Fikret Taha Boz"
+  aciklama="Sitenin tasarım token'ları, tipografi ölçeği ve bileşen kütüphanesi. Herkese açık inceleme için."
+  noindex={true}
+>
+  <div class="wrap vitrin">
+    <header class="vitrin__ust">
+      <h1>Tasarım sistemi</h1>
+      <p class="vitrin__ozet">
+        Bu sayfa üretim bileşenlerinin kendisini render eder — ayrı bir Storybook
+        değil. Vitrin ile sitenin ayrışması bu yüzden mümkün değil.
+        Gerekçeler:
+        <a href="https://github.com/Kaynxx/finans-blog-kitabi/blob/main/08-tasarim/tasarim-sistemi-ve-vitrin.md">
+          08-tasarim
+        </a>.
+      </p>
+    </header>
+
+    <!-- ============ TÜRKÇE ============ -->
+    <section class="blok" aria-labelledby="s-turkce">
+      <h2 id="s-turkce">1. Türkçe karakter testi</h2>
+      <p class="blok__not">
+        Her font veya subset değişikliğinden sonra bu satır kontrol edilir.
+        <code>latin</code> subset'i seçilirse <code>ğ İ ı ş</code> düşer ve satır ritmi bozulur.
+      </p>
+      <p class="tr-test tr-test--display">{TR_TEST}</p>
+      <p class="tr-test tr-test--body">{TR_TEST}</p>
+      <p class="blok__not">
+        Büyük harf dönüşümü (<code>toLocaleUpperCase('tr-TR')</code>):
+        <strong>{buyuk("ılık iğne İstanbul")}</strong>
+        &nbsp;— varsayılan <code>toUpperCase()</code> burada <em>ILIK IGNE</em> üretip Türkçeyi bozar.
+      </p>
+    </section>
+
+    <!-- ============ TİPOGRAFİ ============ -->
+    <section class="blok" aria-labelledby="s-tipografi">
+      <h2 id="s-tipografi">2. Tipografi ölçeği</h2>
+      <p class="blok__not">
+        Başlık: Source Serif 4 &middot; Gövde: Inter &middot; Ölçek oranı 1.25 (Major Third)
+        &middot; Okuma genişliği 68ch
+      </p>
+      <table>
+        <caption>Tip ölçeği</caption>
+        <thead>
+          <tr><th scope="col">Seviye</th><th scope="col">Token</th><th scope="col">Değer</th><th scope="col">Örnek</th></tr>
+        </thead>
+        <tbody>
+          {OLCEK.map(([ad, token, deger]) => (
+            <tr>
+              <th scope="row">{ad}</th>
+              <td><code>{token}</code></td>
+              <td class="num">{deger}</td>
+              <td style={`font-size:var(${token})`}>Finansal okuryazarlık</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ============ RENK ============ -->
+    <section class="blok" aria-labelledby="s-renk">
+      <h2 id="s-renk">3. Renk token'ları</h2>
+      <p class="blok__not">
+        Nötr zemin + tek marka rengi + işlevsel veri renkleri. WCAG 2.2 AA:
+        normal metin 4.5:1, büyük metin ve UI sınırı 3:1.
+      </p>
+      <ul class="renkler">
+        {RENKLER.map(([token, hex, ad]) => (
+          <li class="renk">
+            <span class="renk__ornek" style={`background:${hex}`}></span>
+            <span class="renk__ad">{ad}</span>
+            <code class="renk__token">{token}</code>
+            <code class="renk__hex">{hex}</code>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- ============ BOŞLUK ============ -->
+    <section class="blok" aria-labelledby="s-bosluk">
+      <h2 id="s-bosluk">4. Boşluk ölçeği</h2>
+      <p class="blok__not">4px tabanlı. Ara değer icat edilmez.</p>
+      <ul class="bosluklar">
+        {BOSLUK.map((n) => (
+          <li class="bosluk">
+            <span class="bosluk__cubuk" style={`width:var(--space-${n})`}></span>
+            <code>--space-{n}</code>
+            <span class="bosluk__px">{n * 4}px</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- ============ SAYI BİÇİMİ ============ -->
+    <section class="blok" aria-labelledby="s-sayi">
+      <h2 id="s-sayi">5. Sayı ve para biçimi</h2>
+      <p class="blok__not">
+        Elle biçimlendirme yasak. <code>Intl.NumberFormat('tr-TR')</code> kullanılır.
+        Tablolarda <code>tabular-nums</code> zorunlu — aksi hâlde değer güncellendiğinde sütun oynar.
+      </p>
+      <table>
+        <caption>Biçimlendirme çıktıları</caption>
+        <thead><tr><th scope="col">Fonksiyon</th><th scope="col">Girdi</th><th scope="col">Çıktı</th></tr></thead>
+        <tbody>
+          <tr><th scope="row"><code>tl()</code></th><td class="num">1234567.89</td><td class="num">{tl(1234567.89)}</td></tr>
+          <tr><th scope="row"><code>sayi()</code></th><td class="num">98765.4</td><td class="num">{sayi(98765.4)}</td></tr>
+          <tr><th scope="row"><code>yuzde()</code></th><td class="num">2.4</td><td class="num">{yuzde(2.4)}</td></tr>
+          <tr><th scope="row"><code>yuzde()</code></th><td class="num">-1.15</td><td class="num">{yuzde(-1.15)}</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ============ VERİ KARTI ============ -->
+    <section class="blok" aria-labelledby="s-kart">
+      <h2 id="s-kart">6. Veri kartı — tüm durumlar</h2>
+      <div class="kart-izgara">
+        <DataCard
+          etiket="Yıllık TÜFE"
+          deger={33.52}
+          birim="%"
+          degisim={-1.15}
+          donem="Temmuz 2026"
+          kaynak="TÜİK"
+          kaynakUrl="https://www.tuik.gov.tr"
+        />
+        <DataCard
+          etiket="1 aylık mevduat brüt faiz"
+          deger={42.75}
+          birim="%"
+          degisim={2.4}
+          donem="Ağustos 2026"
+          kaynak="TCMB EVDS"
+          kaynakUrl="https://evds2.tcmb.gov.tr"
+        />
+        <DataCard
+          etiket="Veri bekleniyor"
+          deger={null}
+          donem="Eylül 2026"
+          kaynak="TÜİK"
+        />
+      </div>
+      <p class="blok__not">
+        Üçüncü kart <strong>boş durum</strong>: veri yoksa <code>—</code> gösterilir.
+        Eski veri asla güncelmiş gibi sunulmaz.
+      </p>
+    </section>
+
+    <!-- ============ DISCLAIMER ============ -->
+    <section class="blok" aria-labelledby="s-uyari">
+      <h2 id="s-uyari">7. Yasal uyarı bileşeni</h2>
+      <p class="blok__not">
+        SPK riski nedeniyle yatırım konusu geçen her içerikte görünür.
+        Modal veya kırmızı alarm değil — okumayı bozmadan görünür olmalı.
+        <strong>Metin taslaktır, avukat onayı gerekir.</strong>
+      </p>
+      <h3>Kısa varyant (giriş altı)</h3>
+      <Disclaimer varyant="kisa" />
+      <h3>Tam varyant (makale sonu)</h3>
+      <Disclaimer varyant="tam" pozisyon="yok" />
+    </section>
+
+    <!-- ============ BÜLTEN ============ -->
+    <section class="blok" aria-labelledby="s-bulten">
+      <h2 id="s-bulten">8. Bülten formu</h2>
+      <p class="blok__not">
+        Tek alan (e-posta). Ayrı ve işaretsiz ticari ileti onayı — KVKK gereği
+        aydınlatma ile rıza aynı kutuda olamaz. Formu boş gönderip hata
+        durumlarını deneyebilirsiniz.
+      </p>
+      <NewsletterForm varyant="inline" />
+    </section>
+
+    <!-- ============ REKLAM ============ -->
+    <section class="blok" aria-labelledby="s-reklam">
+      <h2 id="s-reklam">9. Reklam slotları</h2>
+      <p class="blok__not">
+        Alan istekten önce ayrılır → CLS katkısı 0. Reklam gelmezse konteyner
+        ani çökmez. "REKLAM" etiketi zorunlu (TR'de örtülü reklam yasak).
+        Bu sayfada gerçek reklam kodu yüklenmiyor; yalnızca ayrılan alan görünüyor.
+      </p>
+      <AdSlot boyut="leaderboard" />
+      <AdSlot boyut="rectangle" />
+      <AdSlot boyut="mobil" />
+    </section>
+
+    <!-- ============ KAYNAK ============ -->
+    <section class="blok" aria-labelledby="s-kaynak">
+      <h2 id="s-kaynak">10. Kaynak bloğu</h2>
+      <SourceBlock
+        yontem="Reel getiri, brüt faizden stopaj düşülerek ve TÜFE ile deflate edilerek hesaplandı."
+        kaynaklar={[
+          { ad: "TÜİK — Tüketici Fiyat Endeksi, Temmuz 2026", url: "https://www.tuik.gov.tr", erisim: "2026-08-15" },
+          { ad: "TCMB EVDS — Ağırlıklı ortalama mevduat faizi", url: "https://evds2.tcmb.gov.tr", erisim: "2026-08-15" },
+        ]}
+      />
+    </section>
+
+    <!-- ============ KURALLAR ============ -->
+    <section class="blok" aria-labelledby="s-kural">
+      <h2 id="s-kural">11. Her zaman yap / asla yapma</h2>
+      <div class="kurallar">
+        <div class="kural kural--yap">
+          <h3>Her zaman yap</h3>
+          <ul>{KURALLAR.yap.map((k) => <li>{k}</li>)}</ul>
+        </div>
+        <div class="kural kural--yapma">
+          <h3>Asla yapma</h3>
+          <ul>{KURALLAR.yapma.map((k) => <li>{k}</li>)}</ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ BÜTÇE ============ -->
+    <section class="blok" aria-labelledby="s-butce">
+      <h2 id="s-butce">12. Performans bütçesi</h2>
+      <table>
+        <caption>Yayın kapısı — reklam hariç ilk yük</caption>
+        <thead><tr><th scope="col">Kaynak</th><th scope="col">Bütçe (gzip)</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">HTML</th><td class="num">≤ 40 kB</td></tr>
+          <tr><th scope="row">CSS</th><td class="num">≤ 60 kB</td></tr>
+          <tr><th scope="row">İlk rota JS</th><td class="num">≤ 120 kB</td></tr>
+          <tr><th scope="row">Fontlar</th><td class="num">≤ 100 kB</td></tr>
+          <tr><th scope="row">Toplam</th><td class="num">≤ 600 kB</td></tr>
+        </tbody>
+      </table>
+      <p class="blok__not">
+        Saha hedefleri (75. yüzdelik): LCP ≤ 2,5 s &middot; INP ≤ 200 ms &middot; CLS ≤ 0,10.
+        <strong>CLS 0,1'i aşarsa yeni reklam slotu eklenmez.</strong>
+      </p>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .vitrin { padding-block: var(--space-12) var(--space-24); }
+  .vitrin__ust { max-width: var(--measure-reading); }
+  .vitrin__ozet { color: var(--color-text-secondary); }
+
+  .blok {
+    border-top: 1px solid var(--color-border-subtle);
+    padding-top: var(--space-8);
+    margin-top: var(--space-16);
+  }
+  .blok__not {
+    max-width: var(--measure-reading);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .tr-test {
+    margin: var(--space-4) 0;
+    padding: var(--space-4);
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-sm);
+    font-variant-numeric: tabular-nums;
+  }
+  .tr-test--display { font-family: var(--font-display); font-size: var(--text-h3); }
+  .tr-test--body { font-family: var(--font-body); font-size: var(--text-body); }
+
+  .renkler, .bosluklar {
+    list-style: none; padding: 0;
+    margin: var(--space-6) 0 0;
+    display: grid; gap: var(--space-2);
+  }
+  .renkler { grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr)); }
+  .renk {
+    display: flex; align-items: center; gap: var(--space-3);
+    font-size: var(--text-meta);
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-sm);
+    padding: var(--space-2) var(--space-3);
+  }
+  .renk__ornek {
+    width: 2rem; height: 2rem; flex: none;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border-strong);
+  }
+  .renk__ad { flex: 1; font-size: var(--text-sm); }
+  .renk__token, .renk__hex { font-size: 11px; }
+
+  .bosluk { display: flex; align-items: center; gap: var(--space-4); font-size: var(--text-meta); }
+  .bosluk__cubuk { height: 1rem; background: var(--color-brand-primary); border-radius: 2px; flex: none; }
+  .bosluk__px { color: var(--color-text-secondary); }
+
+  .kart-izgara {
+    display: grid; gap: var(--space-4);
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    margin-top: var(--space-6);
+  }
+
+  .kurallar {
+    display: grid; gap: var(--space-6);
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    margin-top: var(--space-6);
+  }
+  .kural {
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-md);
+    padding: var(--space-4) var(--space-6);
+  }
+  .kural h3 { margin-top: 0; font-size: var(--text-h4); font-family: var(--font-body); }
+  .kural--yap h3 { color: var(--color-data-positive); }
+  .kural--yapma h3 { color: var(--color-data-negative); }
+  .kural ul { font-size: var(--text-sm); padding-left: var(--space-6); margin: 0; }
+  .kural li + li { margin-top: var(--space-2); }
+</style>

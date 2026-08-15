@@ -1,0 +1,83 @@
+---
+/**
+ * Reklam slotu — birinci sınıf tasarım bileşeni, sonradan yapıştırılan iframe değil.
+ *
+ * Kurallar (kitap: 07-reklam §3):
+ *  - Alan İSTEKTEN ÖNCE ayrılır. Aksi hâlde CLS patlar.
+ *  - Reklam gelmezse konteyner ANİDEN ÇÖKMEZ.
+ *  - Görünür "REKLAM" etiketi zorunlu (TR'de örtülü reklam yasak).
+ *  - İlk viewport'ta kullanılmaz.
+ */
+interface Props {
+  /** IAB boyut ailesi */
+  boyut?: "leaderboard" | "rectangle" | "skyscraper" | "mobil";
+  /** AdSense birim kimliği. Yoksa placeholder çizilir. */
+  slotId?: string;
+  class?: string;
+}
+
+const { boyut = "rectangle", slotId, class: className = "" } = Astro.props;
+
+const OLCU = {
+  leaderboard: { minHeight: "90px",  maxWidth: "970px", etiket: "970×90 / 728×90" },
+  rectangle:   { minHeight: "280px", maxWidth: "336px", etiket: "336×280 / 300×250" },
+  skyscraper:  { minHeight: "600px", maxWidth: "300px", etiket: "300×600" },
+  mobil:       { minHeight: "100px", maxWidth: "320px", etiket: "320×100" },
+} as const;
+
+const o = OLCU[boyut];
+---
+
+<aside
+  class={`ad-slot ad-slot--${boyut} ${className}`}
+  style={`--slot-min-height:${o.minHeight};--slot-max-width:${o.maxWidth}`}
+  aria-label="Reklam alanı"
+>
+  <span class="ad-slot__label" aria-hidden="true">REKLAM</span>
+  <div class="ad-slot__frame">
+    {slotId ? (
+      <ins class="adsbygoogle" data-ad-slot={slotId} data-ad-format="auto"></ins>
+    ) : (
+      <span class="ad-slot__placeholder">{o.etiket}</span>
+    )}
+  </div>
+</aside>
+
+<style>
+  .ad-slot {
+    display: block;
+    margin-block: var(--space-12);
+    /* Yerleşim ve boyama bu kutuda kalsın: reklam sayfanın kalanını sarsmasın. */
+    contain: layout paint;
+  }
+
+  .ad-slot__label {
+    display: block;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-2);
+    text-align: center;
+  }
+
+  .ad-slot__frame {
+    /* Alan İSTEKTEN ÖNCE ayrılır -> CLS = 0 */
+    min-height: var(--slot-min-height);
+    max-width: var(--slot-max-width);
+    margin-inline: auto;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background: var(--color-bg-sunken);
+    border: 1px dashed var(--color-border-subtle);
+    border-radius: var(--radius-sm);
+  }
+
+  .ad-slot__placeholder {
+    font-family: var(--font-mono);
+    font-size: var(--text-meta);
+    color: var(--color-text-secondary);
+  }
+
+  .adsbygoogle { display: block; width: 100%; }
+</style>

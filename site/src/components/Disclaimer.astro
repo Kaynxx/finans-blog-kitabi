@@ -1,0 +1,76 @@
+---
+/**
+ * SPK yasal uyarısı.
+ *
+ * Yatırım konusu geçen HER içerikte görünür olmalı (kitap: 03-hukuk).
+ * Kırmızı alarm veya modal DEĞİL: okumayı bozmadan görünür olmalı.
+ *
+ * UYARI: Aşağıdaki metin taslaktır. Yayına çıkmadan önce sermaye
+ * piyasası hukuku bilen bir avukata onaylatılmalıdır.
+ */
+interface Props {
+  /** "kisa" = giriş özeti altına, "tam" = makale sonuna */
+  varyant?: "kisa" | "tam";
+  yazar?: string;
+  pozisyon?: string;
+}
+
+const {
+  varyant = "kisa",
+  yazar = "Fikret Taha Boz",
+  pozisyon,
+} = Astro.props;
+---
+
+<aside class="uyari" role="note" aria-labelledby="uyari-baslik">
+  <p id="uyari-baslik" class="uyari__baslik">Bilgilendirme</p>
+
+  {varyant === "kisa" ? (
+    <p class="uyari__metin">
+      Bu içerik genel bilgilendirme amaçlıdır; kişisel yatırım tavsiyesi değildir.
+      Mali durumunuz, yatırım hedefiniz ve risk tercihiniz değerlendirilmemiştir.
+    </p>
+  ) : (
+    <>
+      <p class="uyari__metin">
+        Bu içerik yatırım danışmanlığı hizmeti değildir ve genel bilgilendirme
+        amacıyla hazırlanmıştır. Mali durumunuz, yatırım hedefiniz ve risk-getiri
+        tercihleriniz değerlendirilmemiştir; yalnızca bu içeriğe dayanarak işlem
+        yapılması beklediğiniz sonucu vermeyebilir.
+      </p>
+      <p class="uyari__metin uyari__metin--meta">
+        Hazırlayan: {yazar}.
+        {pozisyon
+          ? ` Yazarın konu varlıktaki pozisyonu: ${pozisyon}.`
+          : " Yazarın konu edilen varlıklarda pozisyonu bulunmamaktadır."}
+      </p>
+    </>
+  )}
+</aside>
+
+<style>
+  .uyari {
+    background: var(--color-bg-notice);
+    border: 1px solid var(--color-border-notice);
+    border-radius: var(--radius-md);
+    padding: var(--space-4) var(--space-6);
+    margin-block: var(--space-8);
+  }
+  .uyari__baslik {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    margin: 0 0 var(--space-2);
+    letter-spacing: 0.01em;
+  }
+  .uyari__metin {
+    font-size: 1rem;
+    line-height: 1.55;
+    margin: 0;
+  }
+  .uyari__metin + .uyari__metin { margin-top: var(--space-3); }
+  .uyari__metin--meta {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+</style>

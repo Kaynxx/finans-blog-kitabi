@@ -1,0 +1,47 @@
+---
+import Base from "../layouts/Base.astro";
+import NewsletterForm from "../components/NewsletterForm.astro";
+
+const VAAT =
+  "Türkiye'de maaşla yaşayanlar için enflasyon, vergi ve finansal ürünleri gerçek rakamlarla sadeleştiren haftalık karar rehberi.";
+---
+
+<Base baslik="Fikret Taha Boz — Enflasyon altında para kararları" aciklama={VAAT}>
+  <section class="giris">
+    <div class="measure">
+      <h1>Enflasyon altında para kararları</h1>
+      <p class="giris__vaat">{VAAT}</p>
+      <p class="giris__not">
+        Her hesaplamada veri tarihi, kaynak bağlantısı ve varsayımlar gösterilir.
+        Hisse tavsiyesi verilmez, sinyal satılmaz.
+      </p>
+    </div>
+  </section>
+
+  <div class="measure">
+    <NewsletterForm varyant="genis" />
+
+    <section aria-labelledby="yakinda">
+      <h2 id="yakinda">Yakında</h2>
+      <p>
+        İlk yazılar hazırlanıyor. Tasarım sistemi ve bileşen kütüphanesi
+        şu anda <a href="/tasarim/">/tasarim</a> adresinde herkese açık olarak inceleniyor.
+      </p>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .giris { padding-block: var(--space-16) var(--space-8); }
+  .giris__vaat {
+    font-size: var(--text-h4);
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+  }
+  .giris__not {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    border-left: 3px solid var(--color-border-notice);
+    padding-left: var(--space-4);
+  }
+</style>

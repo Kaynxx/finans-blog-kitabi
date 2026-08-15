@@ -1,0 +1,184 @@
+---
+/**
+ * Bülten kayıt formu.
+ *
+ * Kurallar (kitap: 02-bulten, 05-seo):
+ *  - TEK alan: e-posta. İsim sonra sorulur, sürtünme azaltılır.
+ *  - Teklif "bültene abone ol" değil, somut sonuç olmalı.
+ *  - KVKK: aydınlatma bağlantısı + AYRI, işaretsiz ticari ileti onayı.
+ *  - Double opt-in zorunlu değil ama ispat için uygulanacak.
+ *  - Reklam ile AYNI viewport'ta yarıştırılmaz.
+ */
+interface Props {
+  varyant?: "inline" | "genis";
+  baslik?: string;
+  vaat?: string;
+  /** Kit (ConvertKit) form action URL'i. Boşsa demo modda çalışır. */
+  action?: string;
+}
+
+const {
+  varyant = "inline",
+  baslik = "Her cuma, 5 dakikada",
+  vaat = "Enflasyon altında maaşlı çalışanın para kararları — gerçek rakamlarla, kaynaklı.",
+  action,
+} = Astro.props;
+---
+
+<section class={`bulten bulten--${varyant}`} aria-labelledby="bulten-baslik">
+  <h2 id="bulten-baslik" class="bulten__baslik">{baslik}</h2>
+  <p class="bulten__vaat">{vaat}</p>
+
+  <form
+    class="bulten__form"
+    method="post"
+    action={action}
+    data-demo={action ? undefined : "true"}
+    novalidate
+  >
+    <div class="bulten__satir">
+      <label class="visually-hidden" for="bulten-eposta">E-posta adresiniz</label>
+      <input
+        id="bulten-eposta"
+        class="bulten__input"
+        type="email"
+        name="email_address"
+        inputmode="email"
+        autocomplete="email"
+        placeholder="ornek@eposta.com"
+        required
+      />
+      <button class="bulten__buton" type="submit">Abone ol</button>
+    </div>
+
+    <p class="bulten__durum" role="status" aria-live="polite"></p>
+
+    <label class="bulten__onay">
+      <input type="checkbox" name="ticari_ileti_onay" value="evet" required />
+      <span>
+        Ticari elektronik ileti almayı kabul ediyorum ve
+        <a href="/kvkk/">aydınlatma metnini</a> okudum.
+      </span>
+    </label>
+
+    <p class="bulten__mini">
+      Spam yok, tek tıkla çıkış. Adresiniz üçüncü kişilerle paylaşılmaz.
+    </p>
+  </form>
+</section>
+
+<script>
+  // Demo modu: gerçek ESP bağlanana kadar form durumlarını görünür kılar.
+  document.querySelectorAll<HTMLFormElement>('form[data-demo="true"]').forEach((form) => {
+    const durum = form.querySelector<HTMLParagraphElement>(".bulten__durum");
+    const buton = form.querySelector<HTMLButtonElement>(".bulten__buton");
+    const input = form.querySelector<HTMLInputElement>(".bulten__input");
+    const onay = form.querySelector<HTMLInputElement>('input[name="ticari_ileti_onay"]');
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (!durum || !buton || !input || !onay) return;
+
+      if (!input.checkValidity()) {
+        durum.dataset.tip = "hata";
+        durum.textContent = "Geçerli bir e-posta adresi girin.";
+        input.focus();
+        return;
+      }
+      if (!onay.checked) {
+        durum.dataset.tip = "hata";
+        durum.textContent = "Devam etmek için onay kutusunu işaretleyin.";
+        onay.focus();
+        return;
+      }
+
+      buton.disabled = true;
+      durum.dataset.tip = "bilgi";
+      durum.textContent = "Gönderiliyor…";
+
+      window.setTimeout(() => {
+        durum.dataset.tip = "basari";
+        durum.textContent =
+          "Neredeyse tamam — gelen kutunuzdaki onay bağlantısına tıklayın.";
+        buton.disabled = false;
+      }, 700);
+    });
+  });
+</script>
+
+<style>
+  .bulten {
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-md);
+    padding: var(--space-8);
+    margin-block: var(--space-12);
+  }
+  .bulten--genis { padding: var(--space-12); }
+
+  .bulten__baslik {
+    margin: 0 0 var(--space-2);
+    font-size: var(--text-h3);
+  }
+  .bulten__vaat {
+    margin: 0 0 var(--space-6);
+    color: var(--color-text-secondary);
+    font-size: 1rem;
+  }
+
+  .bulten__satir { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+
+  .bulten__input {
+    flex: 1 1 16rem;
+    min-width: 0;
+    font: inherit;
+    font-size: 1rem;
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-surface);
+    color: var(--color-text-primary);
+  }
+
+  .bulten__buton {
+    font: inherit;
+    font-size: 1rem;
+    font-weight: var(--weight-semibold);
+    padding: var(--space-3) var(--space-6);
+    border: 1px solid var(--color-brand-primary);
+    border-radius: var(--radius-sm);
+    background: var(--color-brand-primary);
+    color: var(--color-text-inverse);
+    cursor: pointer;
+  }
+  .bulten__buton:hover:not(:disabled) {
+    background: var(--color-brand-hover);
+    border-color: var(--color-brand-hover);
+  }
+  .bulten__buton:disabled { opacity: 0.6; cursor: progress; }
+
+  .bulten__durum {
+    margin: var(--space-3) 0 0;
+    font-size: var(--text-sm);
+    min-height: 1.4em;
+  }
+  .bulten__durum[data-tip="hata"] { color: var(--color-data-negative); }
+  .bulten__durum[data-tip="basari"] { color: var(--color-data-positive); }
+  .bulten__durum[data-tip="bilgi"] { color: var(--color-text-secondary); }
+
+  .bulten__onay {
+    display: flex;
+    gap: var(--space-3);
+    align-items: flex-start;
+    margin-top: var(--space-4);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+  }
+  .bulten__onay input { margin-top: 0.25em; flex: none; }
+
+  .bulten__mini {
+    margin: var(--space-3) 0 0;
+    font-size: var(--text-meta);
+    color: var(--color-text-secondary);
+  }
+</style>

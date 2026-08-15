@@ -1,0 +1,92 @@
+/* =============================================================
+   TASARIM TOKEN'LARI
+   Tek doğruluk kaynağı. Hiçbir bileşende çıplak hex/px kullanma.
+   Gerekçe: /tasarim rotası ve kitap deposundaki 08-tasarim bölümü.
+   ============================================================= */
+
+:root {
+  /* --- Renk: yüzeyler --------------------------------------- */
+  --color-bg-page: #f7f4ed;        /* sıcak kâğıt; saf beyaz değil, uzun okuma için */
+  --color-bg-surface: #ffffff;
+  --color-bg-sunken: #efebe1;
+  --color-bg-notice: #fff8e6;      /* disclaimer zemini */
+
+  /* --- Renk: metin ------------------------------------------- */
+  --color-text-primary: #171717;
+  --color-text-secondary: #5b5b57;
+  --color-text-inverse: #ffffff;
+
+  /* --- Renk: çizgi ------------------------------------------- */
+  --color-border-subtle: #d8d4ca;
+  --color-border-strong: #b3ada0;
+  --color-border-notice: #d9b56d;
+
+  /* --- Renk: marka ve anlam ---------------------------------- */
+  --color-brand-primary: #0b5cad;
+  --color-brand-hover: #08447f;
+  --color-data-positive: #087a55;
+  --color-data-negative: #b42318;
+  --color-data-warning: #8a5a00;
+
+  /* --- Renk: grafik serileri --------------------------------- */
+  --color-chart-1: #2f6feb;
+  --color-chart-2: #7a52c7;
+  --color-chart-3: #c65d09;
+  --color-chart-4: #087a55;
+  --color-chart-5: #b42318;
+
+  /* --- Boşluk (4px tabanlı) ---------------------------------- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+
+  /* --- Tipografi --------------------------------------------- */
+  --font-display: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-body: "Inter", -apple-system, "Segoe UI", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, monospace;
+
+  --text-meta: 0.8125rem;   /* 13px */
+  --text-sm: 0.875rem;      /* 14px */
+  --text-body: 1.125rem;    /* 18px */
+  --text-h4: 1.25rem;       /* 20px */
+  --text-h3: 1.5625rem;     /* 25px */
+  --text-h2: 2rem;          /* 32px */
+  --text-h1: 3rem;          /* 48px */
+
+  --leading-body: 1.7;
+  --leading-tight: 1.18;
+  --leading-h1: 1.08;
+
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* --- Ölçü --------------------------------------------------- */
+  --measure-reading: 68ch;  /* makale gövdesi; 75ch aşılmaz */
+  --width-wide: 1200px;
+
+  /* --- Diğer --------------------------------------------------- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --shadow-raised: 0 8px 24px rgb(23 23 23 / 8%);
+  --focus-ring: 2px solid var(--color-brand-primary);
+  --focus-offset: 2px;
+}
+
+/* Mobil tipografi düzeltmesi */
+@media (max-width: 40rem) {
+  :root {
+    --text-body: 1.0625rem; /* 17px */
+    --text-h1: 2.25rem;     /* 36px */
+    --text-h2: 1.75rem;
+    --leading-body: 1.65;
+    --leading-h1: 1.12;
+  }
+}

@@ -1,0 +1,123 @@
+---
+// Fontlar kendi barındırdığımız, Türkçe'ye subset'lenmiş dosyalardan gelir.
+// Bkz. src/styles/fonts.css ve scripts/subset-fonts.py
+import "../styles/global.css";
+
+interface Props {
+  baslik: string;
+  aciklama: string;
+  /** Arama motorundan gizle (taslak sayfalar) */
+  noindex?: boolean;
+}
+
+const { baslik, aciklama, noindex = false } = Astro.props;
+const YAZAR = "Fikret Taha Boz";
+const kanonik = new URL(Astro.url.pathname, Astro.site ?? "https://tahaboz.com");
+---
+
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    {/* Kritik fontları erken çek: font-display:optional ile birleşince
+        yedek fonttan gerçek fonta geçiş (dolayısıyla CLS) oluşmaz. */}
+    <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/inter-latin-ext.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/source-serif-4-latin-ext.woff2" as="font" type="font/woff2" crossorigin />
+    <title>{baslik}</title>
+    <meta name="description" content={aciklama} />
+    <meta name="author" content={YAZAR} />
+    <link rel="canonical" href={kanonik.href} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={baslik} />
+    <meta property="og:description" content={aciklama} />
+    <meta property="og:locale" content="tr_TR" />
+    <meta name="twitter:card" content="summary_large_image" />
+    {/* Tek robots direktifi. İki ayrı meta name="robots" tanımlamak
+        belirsizlik yaratır; noindex ile Discover ayarı burada birleşir. */}
+    <meta
+      name="robots"
+      content={noindex ? "noindex,follow" : "index,follow,max-image-preview:large"}
+    />
+  </head>
+
+  <body>
+    <a class="skip-link" href="#icerik">İçeriğe geç</a>
+
+    <header class="ust">
+      <div class="wrap ust__ic">
+        <a class="ust__marka" href="/">{YAZAR}</a>
+        <nav aria-label="Ana menü">
+          <ul class="ust__menu">
+            <li><a href="/">Yazılar</a></li>
+            <li><a href="/tasarim/">Tasarım</a></li>
+            <li><a href="/hakkinda/">Hakkında</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="icerik">
+      <slot />
+    </main>
+
+    <footer class="alt">
+      <div class="wrap">
+        <p class="alt__metin">
+          &copy; {new Date().getFullYear()} {YAZAR}. Bu sitedeki içerikler genel
+          bilgilendirme amaçlıdır; yatırım danışmanlığı değildir.
+        </p>
+        <p class="alt__metin alt__metin--mini">
+          <a href="/kvkk/">KVKK ve Gizlilik</a> &middot;
+          <a href="/cerez/">Çerez Politikası</a> &middot;
+          <a href="/editoryal-politika/">Editoryal Politika</a> &middot;
+          <a href="https://github.com/Kaynxx/finans-blog-kitabi">Kaynak kod ve tasarım</a>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .ust {
+    border-bottom: 1px solid var(--color-border-subtle);
+    background: var(--color-bg-surface);
+  }
+  .ust__ic {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    align-items: baseline;
+    justify-content: space-between;
+    padding-block: var(--space-4);
+  }
+  .ust__marka {
+    font-family: var(--font-display);
+    font-size: var(--text-h4);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-primary);
+    text-decoration: none;
+  }
+  .ust__menu {
+    display: flex;
+    gap: var(--space-6);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: var(--text-sm);
+  }
+  .alt {
+    border-top: 1px solid var(--color-border-subtle);
+    margin-top: var(--space-24);
+    padding-block: var(--space-8);
+  }
+  .alt__metin {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-2);
+  }
+  .alt__metin--mini { font-size: var(--text-meta); }
+</style>

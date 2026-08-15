@@ -1,0 +1,98 @@
+---
+/**
+ * Veri kartı — sayısal bir olgunun kaynaklı sunumu.
+ *
+ * Kurallar (kitap: 08-tasarim §4):
+ *  - Kaynak, dönem ve birim ZORUNLU. Kaynaksız sayı yayımlanmaz.
+ *  - Yön yalnız renkle anlatılmaz: ok işareti + işaretli sayı.
+ *  - Veri yoksa "—" gösterilir; eski veri güncelmiş gibi sunulmaz.
+ */
+import { sayi, yuzde, yon, YON_ISARETI } from "../lib/format";
+
+interface Props {
+  etiket: string;
+  deger: number | null;
+  birim?: string;
+  /** Yüzde cinsinden değişim */
+  degisim?: number;
+  donem: string;
+  kaynak: string;
+  kaynakUrl?: string;
+}
+
+const { etiket, deger, birim = "", degisim, donem, kaynak, kaynakUrl } = Astro.props;
+const d = degisim === undefined ? null : yon(degisim);
+---
+
+<figure class="kart">
+  <figcaption class="kart__etiket">{etiket}</figcaption>
+
+  <p class="kart__deger tnum">
+    {deger === null ? (
+      <span class="kart__bos" title="Veri yok">&#8212;</span>
+    ) : (
+      <>{sayi(deger)}{birim && <span class="kart__birim">{birim}</span>}</>
+    )}
+  </p>
+
+  {d && degisim !== undefined && (
+    <p class={`kart__degisim kart__degisim--${d} tnum`}>
+      <span aria-hidden="true">{YON_ISARETI[d]}</span>
+      <span>{yuzde(degisim)}</span>
+      <span class="visually-hidden">
+        {d === "pozitif" ? "artış" : d === "negatif" ? "azalış" : "değişim yok"}
+      </span>
+    </p>
+  )}
+
+  <p class="kart__meta">
+    <span>{donem}</span>
+    <span aria-hidden="true"> &middot; </span>
+    {kaynakUrl ? <a href={kaynakUrl} rel="nofollow noopener">{kaynak}</a> : <span>{kaynak}</span>}
+  </p>
+</figure>
+
+<style>
+  .kart {
+    margin: 0;
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-md);
+    padding: var(--space-4) var(--space-6);
+  }
+  .kart__etiket {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-2);
+  }
+  .kart__deger {
+    font-family: var(--font-display);
+    font-size: var(--text-h2);
+    font-weight: var(--weight-semibold);
+    line-height: 1.1;
+    margin: 0;
+  }
+  .kart__birim {
+    font-size: var(--text-h4);
+    font-weight: var(--weight-normal);
+    margin-left: 0.15em;
+    color: var(--color-text-secondary);
+  }
+  .kart__bos { color: var(--color-text-secondary); }
+  .kart__degisim {
+    margin: var(--space-2) 0 0;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+  }
+  .kart__degisim--pozitif { color: var(--color-data-positive); }
+  .kart__degisim--negatif { color: var(--color-data-negative); }
+  .kart__degisim--notr { color: var(--color-text-secondary); }
+  .kart__meta {
+    margin: var(--space-3) 0 0;
+    font-size: var(--text-meta);
+    color: var(--color-text-secondary);
+  }
+</style>
