@@ -2,6 +2,8 @@
 
 Blogun kaynak kodu. Tasarım vitrini `/tasarim` rotasında canlı yayınlanır.
 
+**Canlı:** https://kaynxx.github.io/finans-blog-kitabi/tasarim/
+
 ```bash
 npm install
 npm run dev       # http://localhost:4321

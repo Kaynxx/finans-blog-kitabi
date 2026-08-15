@@ -4,7 +4,18 @@ Türkiye'de sıfırdan bir **finans blogu** ve **e-posta bülteni** kurmak için
 araştırma ve karar kitabı. Her bölüm bağımsız bir araştırma turunun (lane) çıktısıdır ve
 sonunda **KARAR** satırlarıyla biter — "duruma göre değişir" cümlesi yasaktır.
 
-Bu depo aynı zamanda projenin **tasarımının herkese açık incelenebildiği** yerdir.
+## 🔗 Canlı
+
+| | Adres |
+|---|---|
+| **Tasarım vitrini** | **https://kaynxx.github.io/finans-blog-kitabi/tasarim/** |
+| Ana sayfa | https://kaynxx.github.io/finans-blog-kitabi/ |
+| Kaynak kod | [`site/`](site/) |
+
+Tasarım, ayrı bir Storybook'ta değil **üretim kodunun kendisinde** sergilenir; vitrin ile
+sitenin ayrışması bu yüzden mümkün değil. Her `main` push'unda otomatik yayınlanır.
+
+Ölçülmüş: **CLS 0** · istemci JS **2,25 kB** · font **95,5 kB** · sayfa ağırlığı **~100 kB**.
 
 ## Proje öncelikleri
 
