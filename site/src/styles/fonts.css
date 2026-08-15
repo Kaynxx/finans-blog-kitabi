@@ -23,7 +23,7 @@
   font-style: normal;
   font-weight: 100 900;
   font-display: optional;
-  src: url("/fonts/inter-latin-ext.woff2") format("woff2");
+  src: url("../fonts/inter-latin-ext.woff2") format("woff2");
   unicode-range: U+011E-011F, U+0130-0131, U+015E-015F, U+0152-0153, U+0218-021B;
 }
 
@@ -32,7 +32,7 @@
   font-style: normal;
   font-weight: 100 900;
   font-display: optional;
-  src: url("/fonts/inter-latin.woff2") format("woff2");
+  src: url("../fonts/inter-latin.woff2") format("woff2");
   unicode-range: U+0000-00FF, U+0300-030F, U+2000-206F, U+20A6-20BF,
     U+2116, U+2122, U+2190-2193, U+2212, U+25B2, U+25BC, U+25CF;
 }
@@ -43,7 +43,7 @@
   font-style: normal;
   font-weight: 200 900;
   font-display: optional;
-  src: url("/fonts/source-serif-4-latin-ext.woff2") format("woff2");
+  src: url("../fonts/source-serif-4-latin-ext.woff2") format("woff2");
   unicode-range: U+011E-011F, U+0130-0131, U+015E-015F, U+0152-0153, U+0218-021B;
 }
 
@@ -52,7 +52,7 @@
   font-style: normal;
   font-weight: 200 900;
   font-display: optional;
-  src: url("/fonts/source-serif-4-latin.woff2") format("woff2");
+  src: url("../fonts/source-serif-4-latin.woff2") format("woff2");
   unicode-range: U+0000-00FF, U+0300-030F, U+2000-206F, U+20A6-20BF,
     U+2116, U+2122, U+2190-2193, U+2212, U+25B2, U+25BC, U+25CF;
 }

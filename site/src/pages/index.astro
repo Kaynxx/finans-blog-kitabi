@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import NewsletterForm from "../components/NewsletterForm.astro";
+import { u } from "../lib/url";
 
 const VAAT =
   "Türkiye'de maaşla yaşayanlar için enflasyon, vergi ve finansal ürünleri gerçek rakamlarla sadeleştiren haftalık karar rehberi.";
@@ -25,7 +26,7 @@ const VAAT =
       <h2 id="yakinda">Yakında</h2>
       <p>
         İlk yazılar hazırlanıyor. Tasarım sistemi ve bileşen kütüphanesi
-        şu anda <a href="/tasarim/">/tasarim</a> adresinde herkese açık olarak inceleniyor.
+        şu anda <a href={u("/tasarim/")}>/tasarim</a> adresinde herkese açık olarak inceleniyor.
       </p>
     </section>
   </div>

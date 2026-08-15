@@ -1,0 +1,68 @@
+name: Tasarım vitrinini yayınla
+
+# Tasarımın "herkesin inceleyebileceği" yer burası.
+# Kendi alan adı alınınca hedef Cloudflare Pages'e taşınacak;
+# o zaman DEPLOY_TARGET kaldırılır ve base "/" olur.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "site/**"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: site
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+
+      - name: Bağımlılıklar
+        run: npm ci
+
+      # Fontlar subset'lenmiş hâlde depoda: CI'da Python/fonttools gerekmiyor.
+      - name: Fontlar yerinde mi
+        run: |
+          for f in inter-latin inter-latin-ext source-serif-4-latin source-serif-4-latin-ext; do
+            test -s "public/fonts/$f.woff2" || { echo "EKSİK: $f.woff2"; exit 1; }
+          done
+          echo "Font toplamı: $(du -ck public/fonts/*.woff2 | tail -1 | cut -f1) kB"
+
+      - name: Derle
+        run: npm run build
+        env:
+          DEPLOY_TARGET: gh-pages
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

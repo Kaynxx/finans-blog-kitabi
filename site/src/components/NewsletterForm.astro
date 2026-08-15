@@ -9,6 +9,8 @@
  *  - Double opt-in zorunlu değil ama ispat için uygulanacak.
  *  - Reklam ile AYNI viewport'ta yarıştırılmaz.
  */
+import { u } from "../lib/url";
+
 interface Props {
   varyant?: "inline" | "genis";
   baslik?: string;
@@ -57,7 +59,7 @@ const {
       <input type="checkbox" name="ticari_ileti_onay" value="evet" required />
       <span>
         Ticari elektronik ileti almayı kabul ediyorum ve
-        <a href="/kvkk/">aydınlatma metnini</a> okudum.
+        <a href={u("/kvkk/")}>aydınlatma metnini</a> okudum.
       </span>
     </label>
 

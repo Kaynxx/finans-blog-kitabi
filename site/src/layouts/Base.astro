@@ -2,6 +2,7 @@
 // Fontlar kendi barındırdığımız, Türkçe'ye subset'lenmiş dosyalardan gelir.
 // Bkz. src/styles/fonts.css ve scripts/subset-fonts.py
 import "../styles/global.css";
+import { u } from "../lib/url";
 
 interface Props {
   baslik: string;
@@ -23,10 +24,10 @@ const kanonik = new URL(Astro.url.pathname, Astro.site ?? "https://tahaboz.com")
 
     {/* Kritik fontları erken çek: font-display:optional ile birleşince
         yedek fonttan gerçek fonta geçiş (dolayısıyla CLS) oluşmaz. */}
-    <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/inter-latin-ext.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/source-serif-4-latin-ext.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={u("/fonts/inter-latin.woff2")} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={u("/fonts/source-serif-4-latin.woff2")} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={u("/fonts/inter-latin-ext.woff2")} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={u("/fonts/source-serif-4-latin-ext.woff2")} as="font" type="font/woff2" crossorigin />
     <title>{baslik}</title>
     <meta name="description" content={aciklama} />
     <meta name="author" content={YAZAR} />
@@ -49,12 +50,12 @@ const kanonik = new URL(Astro.url.pathname, Astro.site ?? "https://tahaboz.com")
 
     <header class="ust">
       <div class="wrap ust__ic">
-        <a class="ust__marka" href="/">{YAZAR}</a>
+        <a class="ust__marka" href={u("/")}>{YAZAR}</a>
         <nav aria-label="Ana menü">
           <ul class="ust__menu">
-            <li><a href="/">Yazılar</a></li>
-            <li><a href="/tasarim/">Tasarım</a></li>
-            <li><a href="/hakkinda/">Hakkında</a></li>
+            <li><a href={u("/")}>Yazılar</a></li>
+            <li><a href={u("/tasarim/")}>Tasarım</a></li>
+            <li><a href={u("/hakkinda/")}>Hakkında</a></li>
           </ul>
         </nav>
       </div>
@@ -71,9 +72,9 @@ const kanonik = new URL(Astro.url.pathname, Astro.site ?? "https://tahaboz.com")
           bilgilendirme amaçlıdır; yatırım danışmanlığı değildir.
         </p>
         <p class="alt__metin alt__metin--mini">
-          <a href="/kvkk/">KVKK ve Gizlilik</a> &middot;
-          <a href="/cerez/">Çerez Politikası</a> &middot;
-          <a href="/editoryal-politika/">Editoryal Politika</a> &middot;
+          <a href={u("/kvkk/")}>KVKK ve Gizlilik</a> &middot;
+          <a href={u("/cerez/")}>Çerez Politikası</a> &middot;
+          <a href={u("/editoryal-politika/")}>Editoryal Politika</a> &middot;
           <a href="https://github.com/Kaynxx/finans-blog-kitabi">Kaynak kod ve tasarım</a>
         </p>
       </div>
