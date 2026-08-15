@@ -1,0 +1,451 @@
+Reading prompt from stdin...
+OpenAI Codex v0.147.0
+--------
+workdir: C:\Users\Kaynxx\AppData\Local\Temp\finans-blog-research
+model: gpt-5.6-sol
+provider: openai
+approval: never
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a00733-ba2e-7e12-8883-17d55afa1202
+--------
+user
+
+# ORTAK BAĞLAM (tüm lane'ler için aynı)
+
+Kullanıcı: Türkiye'de yaşayan, tek kişilik (solo) bir kurucu. Türkçe içerik üretecek.
+Hedef: FİNANS konulu bir blog sitesi + buna bağlı bir E-POSTA BÜLTENİ kurmak.
+Aşama: SIFIRDAN başlıyor. Henüz platform, niş, altyapı seçilmedi. Kitle = 0 abone.
+İstenen çıktı: uygulanabilir, karar verdirici bir ARAŞTIRMA/AKSİYON planı — genel geçer öğüt DEĞİL.
+
+Bilinmeyenler (varsayım yapma, bunun yerine SENARYOLARA böl):
+- Bütçe: 3 senaryo altında değerlendir → (A) ~0-10 USD/ay, (B) ~25-60 USD/ay, (C) 100+ USD/ay
+- Teknik seviye: 2 senaryo → (T1) kod yazmak istemiyor, (T2) kod yazabiliyor/öğrenebilir
+- Niş henüz belirsiz: kişisel finans / borsa-BIST / makro-ekonomi / kripto / girişim-finansmanı arasında
+
+# ÇIKTI KURALLARI (kesin)
+- Tamamen TÜRKÇE yaz.
+- Markdown. Başlık hiyerarşisi kullan. Tablo kullanmaktan çekinme.
+- Her ana bölümün sonunda **KARAR: <net öneri>** satırı olsun — "duruma göre değişir" yasak, senaryoya bağla.
+- Somut ol: gerçek ürün adları, gerçek fiyatlar (2025-2026 seviyesi, tahminse "~" koy), gerçek mevzuat/kanun adları, gerçek araç isimleri.
+- Emin olmadığın rakam/olguya "[DOĞRULA]" etiketi koy. Uydurma.
+- Sonunda "## AÇIK SORULAR" bölümü: kullanıcıya sorulması gereken max 5 soru.
+- Sonunda "## İLK 5 AKSİYON" bölümü: sırayla yapılacak, her biri 1 cümle, ölçülebilir.
+- Uzunluk hedefi: 1200-2000 kelime. Dolgu yok, her cümle bilgi taşısın.
+- Sadece raporu yaz. Dosya oluşturma, kod çalıştırma, komut çalıştırma. Sadece stdout'a markdown rapor bas.
+
+
+# LANE F — MONETİZASYON, BİRİM EKONOMİ VE ÖLÇÜM
+
+Görevin: bu işin nasıl para kazanacağını sayılarla modelleyen plan.
+
+Kapsanacaklar:
+1. Gelir modelleri, her biri için: gereken abone/trafik eşiği, TR'de gerçekçi birim fiyat, kurulum zorluğu, mevzuat riski, kitleyi yakma riski:
+   - Bülten sponsorluğu (TR'de gerçekçi CPM aralığı, sponsor kim olur: aracı kurumlar, fintech'ler, bankalar, kripto borsaları, eğitim şirketleri, SaaS)
+   - Görüntülü reklam (Google AdSense TR RPM'i gerçekçi olarak nedir, Ezoic/Mediavine/Raptive eşikleri ve TR trafiğinin değeri)
+   - Affiliate: TR'de yatırım/finans affiliate programları (aracı kurum hesap açtırma, kripto borsası referans, banka kredi kartı, sigorta karşılaştırma, kitap/eğitim). Komisyon aralıkları. Mevzuat/etik açıklama zorunluluğu.
+   - Ücretli abonelik (paywall): fiyatlandırma (TL mi USD mi), ücretsiz/ücretli içerik ayrımı, dönüşüm oranı gerçekçi beklentisi (%1-5 tartışması), churn
+   - Dijital ürün: e-kitap, Excel/Notion şablon, kurs, topluluk
+   - Danışmanlık/eğitim — SPK riski uyarısı ile
+   - İş ilanı panosu, dizin, veri ürünü
+2. Türkiye'de tahsilat gerçeği: Stripe yok. Her gelir modeli için hangi ödeme altyapısı çalışır (Paddle, Lemon Squeezy, Gumroad, Polar, iyzico, PayTR, Shopier, Patreon, Kreosus, doğrudan havale/EFT). Komisyon, döviz bozdurma, yurt dışı gelir için hizmet ihracı faturası.
+3. Birim ekonomi modeli: 3 senaryoda (1.000 / 10.000 / 50.000 abone) aylık gelir-gider tablosu kur. Giderler: platform, ESP (abone başına artan), domain, araçlar, muhasebe, vergi, tasarım/stok görsel. Net kâr çıkar.
+4. Hangi gelir modeli hangi aşamada açılmalı — aşama kapıları (ör. "sponsorluk satmaya X abonede başla").
+5. Ölçüm ve analitik yığını: Google Analytics 4 mü Plausible/Umami mi (KVKK ve çerez banner'ı açısından fark), Google Search Console, ESP analitiği, UTM disiplini, basit bir gösterge paneli (Google Sheets/Looker Studio) nasıl kurulur.
+6. Takip edilecek KPI seti ve gerçekçi kıyas değerleri: abone büyüme oranı, açılma oranı (Apple MPP çarpıtması!), tıklama oranı (CTR gerçek KPI), churn, e-posta başına gelir (RPE/EPM), organik trafik, abone edinme maliyeti, LTV.
+7. Sık yapılan monetizasyon hataları: erken paywall, alakasız sponsor, aşırı affiliate, ölçülmeyen liste, tek gelir kaynağına bağımlılık.
+
+Sonuç: 0-6 ay / 6-18 ay / 18+ ay için üç aşamalı gelir yol haritası ve her aşamanın çıkış kriteri.
+
+hook: SessionStart
+hook: SessionStart Completed
+hook: UserPromptSubmit
+hook: UserPromptSubmit Completed
+codex
+# FİNANS BLOGU VE BÜLTENİ: MONETİZASYON, BİRİM EKONOMİ VE ÖLÇÜM PLANI
+
+## 1. Gelir modellerinin karşılaştırılması
+
+| Model | Başlama eşiği | Türkiye için gerçekçi fiyat/getiri | Zorluk | Mevzuat riski | Kitleyi yıpratma riski |
+|---|---:|---:|---|---|---|
+| Bülten sponsorluğu | 2.500 nitelikli abone | ~20-50 US$ CPM; niş ve karar verici kitlede ~50-100 US$ CPM [DOĞRULA] | Orta | Orta-yüksek | Orta |
+| Görüntülü reklam | 20.000+ aylık sayfa görüntüleme | AdSense sayfa RPM’i ~0,5-3 US$; finans aramalarında ~2-6 US$ [DOĞRULA] | Düşük | Düşük-orta | Orta |
+| Affiliate | 500+ güvenen abone veya satın alma niyetli SEO trafiği | Satış/lead başına aşağıdaki aralıklar | Orta | Yüksek | Yüksek |
+| Ücretli abonelik | 5.000+ abone veya çok dar uzmanlık | Aylık 149-299 TL, yıllık 1.490-2.990 TL | Yüksek | BIST/kripto içeriğinde yüksek | Orta-yüksek |
+| Dijital ürün | 1.000+ abone | 199-1.500 TL; kurslarda 1.500-7.500 TL | Orta-yüksek | Orta | Düşük-orta |
+| Eğitim/danışmanlık | 500+ güvenen abone | Eğitim 750-3.000 TL/kişi; kurumsal çalışma 15.000-75.000 TL [DOĞRULA] | Yüksek | Yüksek | Orta |
+| İş ilanı/dizin/veri | 10.000+ abone veya belirgin sektör kitlesi | İlan 2.500-10.000 TL; veri üyeliği 299-1.500 TL/ay [DOĞRULA] | Yüksek | Orta | Düşük |
+
+### Sponsorluk
+
+Sponsor adayları aracı kurumlar, portföy yönetim şirketleri, fintech’ler, bankalar, sigorta şirketleri, kripto platformları, muhasebe/finans SaaS şirketleri ve eğitim markalarıdır. Başlangıçta CPM yerine paket satmak daha kolaydır: bir bülten içi yerleşim, bir blog görünürlüğü ve bir sosyal paylaşım için yaklaşık 5.000-15.000 TL [DOĞRULA]. Teslim edilen e-posta, benzersiz tıklama ve UTM sonuçları raporlanmalıdır.
+
+Tek sponsor bir sayının gelirinin tamamını oluşturmamalı; sponsor metni açık biçimde “Sponsorlu” veya “Reklam” olarak işaretlenmelidir.
+
+### Görüntülü reklam
+
+AdSense’in sabit trafik alt sınırı yoktur; fakat düşük Türkçe trafikle anlamlı gelir üretmez. Ezoic’in güncel kabul koşulları, Mediavine Journey’nin yaklaşık 1.000 oturumdan başlayan erişimi ve Raptive’ın trafik/ülke şartları başvuru öncesinde [DOĞRULA]. Bu ağların gelir vaadi çoğunlukla ABD, Kanada ve Birleşik Krallık trafiğine dayanır; Türkçe Türkiye trafiği aynı RPM’i üretmez.
+
+### Affiliate
+
+Gerçekçi brüt aralıklar şöyledir:
+
+- Aracı kurum hesabı: nitelikli hesap veya fonlama başına ~250-1.500 TL [DOĞRULA].
+- Kripto platformu: işlem ücretinin yaklaşık %20-50’si veya kampanya bazlı CPA [DOĞRULA].
+- Kredi kartı/banka ürünü: onaylanan müşteri başına ~300-1.500 TL [DOĞRULA].
+- Sigorta: lead başına ödeme veya poliçe değerinin yaklaşık %5-20’si [DOĞRULA].
+- Kitap: satışın yaklaşık %2-10’u.
+- Eğitim/kurs: satışın yaklaşık %10-30’u.
+
+Her bağlantının yanında veya içeriğin başında ticari ilişki açıklanmalıdır. “Bu bağlantı üzerinden hesap açarsanız komisyon kazanabilirim” gibi doğrudan ifade kullanılmalıdır. Ürün sıralaması komisyona göre değiştirilmemeli; getirilmeyen müşteri veya yatırım sonucu hakkında vaat verilmemelidir.
+
+### Ücretli abonelik ve ürünler
+
+Ücretsiz katman haber özeti, temel rehber ve haftalık içerik sunmalı; ücretli katman özgün veri seti, hesaplama aracı, ayrıntılı sektör dosyası ve arşiv erişimi vermelidir. Haberleri yeniden anlatmak tek başına paywall gerekçesi değildir.
+
+Türkiye kitlesinde TL fiyatlandırma daha uygundur: başlangıç için 199 TL/ay ve 1.990 TL/yıl test edilebilir. Enflasyon nedeniyle fiyat üç ayda bir gözden geçirilmelidir. Genel listelerde %1-3 ücretliye dönüşüm makuldür; %5 ancak güçlü uzmanlık ve tekrarlanan kullanıcı faydasıyla gerçekçidir. Aylık ücretli churn hedefi %3-5, alarm seviyesi %7 üzeridir.
+
+Niş önceliği: kişisel finansta şablon ve affiliate; BIST’te eğitim/veri ürünü; makro-ekonomide sponsorluk ve premium analiz; kriptoda sınırlı affiliate ve güçlü risk açıklaması; girişim finansmanında SaaS sponsorluğu, iş ilanı ve veri ürünü.
+
+**KARAR: İlk gelir kombinasyonu 1.000 abonede dijital ürün + sınırlı affiliate, 2.500 abonede sponsorluk; ücretli abonelik yalnızca 5.000 aboneden ve doğrulanmış premium talepten sonra açılmalıdır.**
+
+## 2. Mevzuat ve tahsilat gerçeği
+
+Finans yayıncılığında temel risk, genel eğitim ile kişiye özel yatırım tavsiyesi arasındaki sınırdır. 6362 sayılı Sermaye Piyasası Kanunu ve III-37.1 sayılı *Yatırım Hizmetleri ve Faaliyetleri ile Yan Hizmetlere İlişkin Esaslar Hakkında Tebliğ* incelenmelidir. Okurun portföyü, risk profili veya mali durumuna göre “al/sat” yönlendirmesi yapmak lisanslı yatırım danışmanlığı alanına girebilir. “Yatırım tavsiyesi değildir” ibaresi, faaliyetin özü danışmanlıksa tek başına koruma sağlamaz.
+
+E-posta toplama ve analitik için 6698 sayılı KVKK; ticari e-posta için 6563 sayılı Elektronik Ticaretin Düzenlenmesi Hakkında Kanun, ilgili yönetmelik ve İleti Yönetim Sistemi yükümlülükleri değerlendirilmelidir. Ücretli dijital ürünlerde 6502 sayılı Kanun, Mesafeli Sözleşmeler Yönetmeliği, ön bilgilendirme ve cayma hakkı hükümleri uygulanabilir.
+
+Türkiye’de Stripe doğrudan satıcı hesabı sunmamaktadır [DOĞRULA]. Alternatifler:
+
+| Altyapı | En uygun kullanım | Yaklaşık maliyet | Kritik nokta |
+|---|---|---:|---|
+| iyzico / PayTR | TL abonelik, ürün, kurs | ~%2,5-5 + sabit ücret [DOĞRULA] | Genellikle şirket/vergi kaydı ve entegrasyon gerekir |
+| Shopier | İlk dijital ürün testi | ~%3-6 [DOĞRULA] | Kolay başlangıç; abonelik ve veri aktarımı sınırlı olabilir |
+| Paddle | Yazılım/veri ürünü, döviz satışı | ~%5 + 0,50 US$ [DOĞRULA] | Merchant of Record; Türkiye kabulü ve ödeme yöntemi doğrulanmalı |
+| Lemon Squeezy | Dijital ürün/abonelik | ~%5 + 0,50 US$, ek ücretler olabilir [DOĞRULA] | Türkiye’ye payout ve ürün uygunluğu doğrulanmalı |
+| Gumroad | E-kitap/şablon | ~%10 + ilgili işlem maliyetleri [DOĞRULA] | Marj düşüktür; payout koşulları doğrulanmalı |
+| Polar | Teknik dijital ürün | ~%4 + 0,40 US$ [DOĞRULA] | Türkiye satıcı desteği doğrulanmalı |
+| Patreon / Kreosus | Üyelik ve destek | Toplam ~%8-15 [DOĞRULA] | Platform bağımlılığı ve kur riski |
+| Havale/EFT | Danışmanlık ve az sayıda kurumsal satış | Banka masrafı | Otomatik yenileme ve mutabakat zayıf |
+
+Yurt dışından kazanılan para otomatik olarak vergiden muaf değildir. Şahıs işletmesi üzerinden fatura, hizmet ihracı koşulları, KDV istisnası ve döviz kazandırıcı hizmet hükümleri mali müşavirle işlem bazında [DOĞRULA]. İçerik üreticisi kazanç istisnasının sponsorluk, danışmanlık, affiliate ve yurt dışı platform ödemelerine uygulanması da ayrı ayrı doğrulanmalıdır.
+
+**KARAR: Türkiye müşterileri için iyzico/PayTR, ilk ürün doğrulaması için Shopier; uluslararası dijital ürün için ancak satıcı ve payout uygunluğu doğrulandıktan sonra Paddle veya Lemon Squeezy kullanılmalıdır.**
+
+## 3. Üç ölçek için birim ekonomi
+
+Aşağıdaki tablo başarılı fakat aşırı iyimser olmayan karma gelir modelidir. Tutarlar aylık US$ karşılığıdır; döviz kuru sabitlenmemiştir. Vergi karşılığı olarak faaliyet kârının %25’i ayrılmıştır; bu oran hukuki vergi hesabı değildir [DOĞRULA].
+
+| Aylık kalem | 1.000 abone | 10.000 abone | 50.000 abone |
+|---|---:|---:|---:|
+| Sponsorluk | 75 | 1.000 | 5.000 |
+| Affiliate | 40 | 400 | 2.000 |
+| Ücretli üyelik | 0 | 750 | 3.700 |
+| Dijital ürün/eğitim | 60 | 250 | 1.500 |
+| Reklam/veri/ilan | 0 | 100 | 1.400 |
+| **Brüt gelir** | **175** | **2.500** | **13.600** |
+| Platform + ESP | 20 | 120 | 400 |
+| Domain | 2 | 2 | 2 |
+| Analitik/araçlar | 10 | 80 | 250 |
+| Muhasebe | 80 | 120 | 200 |
+| Tasarım/stok görsel | 10 | 60 | 200 |
+| Tahsilat/satış komisyonu | 5 | 120 | 550 |
+| **Vergi öncesi faaliyet kârı** | **48** | **1.998** | **11.998** |
+| %25 vergi rezervi | 12 | 500 | 3.000 |
+| **Rezerv sonrası nakit** | **36** | **1.498** | **8.998** |
+
+Bu rakamlar garanti değil, kapasite modelidir. Ücretli üyelik varsayımı 10.000 abonede yaklaşık %2, 50.000’de yaklaşık %1,5 dönüşümdür. Sponsor bulunamayan aylar için yıllık planlama yapılırken sponsorluk gelirine %30 boşluk indirimi uygulanmalıdır.
+
+Bütçe A’da ücretsiz/ucuz ESP, alan adı ve temel araçlarla başlanır; muhasebe zorunluluğu doğduğunda gider bütçeyi aşabilir. Bütçe B, 5.000-15.000 abone aralığına uygundur. Bütçe C, büyüme deneyi, ücretli veri, tasarım ve satış desteği için ancak ürün-pazar uyumu görüldükten sonra kullanılmalıdır.
+
+**KARAR: Başlangıçta Bütçe A; aylık gelir üç ay üst üste 500 US$ karşılığını geçtiğinde Bütçe B, 3.000 US$ ve pozitif katkı marjı görüldüğünde Bütçe C’ye geçilmelidir.**
+
+## 4. Gelir modeli açma kapıları
+
+| Kapı | Açılacak model | Ölçülebilir şart |
+|---|---|---|
+| 500 abone | Sınırlı affiliate | Son dört bültende benzersiz CTR ≥%2 |
+| 1.000 abone | E-kitap/şablon ön satışı | En az 20 ödeme niyeti veya 10 satış |
+| 2.500 abone | Sponsorluk satışı | Açılma ≥%35, CTR ≥%2, düzenli yayın ≥8 hafta |
+| 5.000 abone | Premium pilot | En az 100 kişilik bekleme listesi veya 25 peşin müşteri |
+| 10.000 abone | Düzenli sponsor takvimi | Sponsor yenileme oranı ≥%30 |
+| 25.000 abone | İlan/dizin/veri ürünü | Aynı ihtiyacı bildiren en az 10 kurumsal görüşme |
+| 50.000 abone | Reklam ağı ve satış paketi | Aylık 100.000+ sayfa görüntüleme veya ağın güncel eşiği |
+
+Hiçbir aşamada sponsor ve affiliate toplamı gelirin %70’ini aşmamalıdır. Tek sponsorun payı toplam gelirin %25’ini geçmemelidir.
+
+**KARAR: İlk ticari teklif 1.000 abonede küçük ürün, ilk sponsor satışı 2.500 abonede; paywall 5.000 abone ve peşin talep kanıtı olmadan açılmamalıdır.**
+
+## 5. Analitik yığını
+
+Bütçe A için Google Search Console, ESP analitiği ve Google Sheets yeterlidir. GA4 ücretsizdir fakat analitik çerezleri ve reklam özellikleri nedeniyle açık rıza, çerez yönetimi ve KVKK değerlendirmesi gerektirebilir. Consent Mode rızanın yerine geçmez.
+
+Plausible ücretli ve daha sadedir; Umami kendi sunucunda çalıştırılabilir. Çerezsiz ve kişisel veri toplamayan yapılandırmalar banner ihtiyacını azaltabilir, fakat tamamen ortadan kaldırdığı otomatik varsayılmamalıdır. Sunucu konumu, IP işleme, veri aktarımı ve saklama süresi belgelenmelidir.
+
+Her bağlantı şu şemayı kullanmalıdır:
+
+`utm_source=newsletter&utm_medium=email&utm_campaign=2026_08_hafta_3&utm_content=sponsor_marka`
+
+Google Sheets veya Looker Studio panelinde haftalık satırlar; gönderilen e-posta, teslim, benzersiz tıklama, abonelikten çıkış, kaynak bazlı yeni abone, gelir modeli, tahsilat maliyeti ve içerik üretim saati sütunları tutulmalıdır.
+
+**KARAR: T1 için Plausible + Search Console + ESP + Google Sheets; T2 ve Bütçe A için Umami + Search Console + ESP + Sheets kullanılmalı, reklam hedefleme başlayınca ayrı rıza yönetimi eklenmelidir.**
+
+## 6. KPI seti ve kıyaslar
+
+| KPI | Başlangıç hedefi | Alarm seviyesi |
+|---|---:|---:|
+| Aylık net abone büyümesi | İlk yıl %5-10; ölçekte %2-5 | İki ay <%2 |
+| Açılma oranı | %35-55 | <%30 |
+| Benzersiz CTR / teslim | %2-5 | <%1,5 |
+| Abonelikten çıkış / gönderim | <%0,3 | >%0,5 |
+| Spam şikâyeti | <%0,1 | ≥%0,1 |
+| Bounce | <%1 | >%2 |
+| Ücretliye dönüşüm | %1-3 | <%1 |
+| Ücretli aylık churn | %3-5 | >%7 |
+| Sponsor CTR | %0,5-1,5 [DOĞRULA] | <%0,5 |
+
+Apple Mail Privacy Protection açılmaları yapay olarak yükselttiği için açılma oranı karar KPI’ı değildir. Birincil kalite göstergesi benzersiz CTR, ikincil göstergeler yanıt sayısı ve dönüşümdür.
+
+E-posta başına gelir `toplam gelir / teslim edilen e-posta` olarak RPE; bin teslim başına gelir ise EPM olarak izlenmelidir. LTV yaklaşık olarak `aylık net ARPU / aylık churn` formülüyle hesaplanabilir. Ücretli abone edinme maliyeti, 12 aylık katkı LTV’sinin %30-40’ını aşmamalıdır.
+
+**KARAR: Yönetim panelinin birincil KPI’ları net abone büyümesi, benzersiz CTR, aylık churn, RPE ve 12 aylık katkı LTV/CAC oranı olmalıdır.**
+
+## 7. Üç aşamalı gelir yol haritası
+
+### 0-6 ay: Güven ve talep doğrulama
+
+Haftalık ücretsiz yayın, 20-30 kalıcı blog yazısı ve tek bir ücretsiz hesaplama/şablon üretilecektir. Affiliate en fazla içeriklerin %20’sinde kullanılacak; sponsor veya paywall zorlanmayacaktır. Bir küçük ürün ön satışı yapılacaktır.
+
+Çıkış kriteri: 1.000 abone, sekiz hafta kesintisiz yayın, ≥%2 CTR, en az 10 ürün satışı ve organik trafikten ayda 250 yeni ziyaretçi.
+
+### 6-18 ay: Karma geliri kurma
+
+Ayda en fazla dört sponsor yerleşimi, bir dijital ürün ve sınırlı premium pilot açılacaktır. Sponsor satış dosyasında kitle profili, teslim, CTR ve geçmiş sonuç bulunacaktır.
+
+Çıkış kriteri: 10.000 abone, üç ay üst üste giderlerin en az iki katı gelir, ≥%30 sponsor yenileme, ücretli churn <%5 ve hiçbir gelir kaynağının payı >%50 olmaması.
+
+### 18+ ay: Ölçek ve savunulabilir ürün
+
+Veri üyeliği, iş ilanı, dizin veya kurumsal eğitimden biri ana ürüne dönüştürülecektir. Editoryal bağımsızlık politikası ve yıllık sponsor sınırları yayımlanacaktır.
+
+Çıkış kriteri: 50.000 abone, altı aylık gider rezervi, gelirin en az üç modele dağılması ve kurucunun içerik dışı operasyon süresinin haftada sekiz saatin altına indirilmesi.
+
+En yaygın hatalar erken paywall, komisyonu yüksek diye alakasız ürün önermek, her sayıyı sponsorla doldurmak, UTM kullanmamak, Apple açılmalarını gerçek ilgi sanmak ve tek kripto/aracı kurum sponsoruna bağımlı kalmaktır.
+
+**KARAR: 0-6 ay ürün talebi, 6-18 ay sponsor + ürün + premium dengesi, 18+ ay tekrarlanan gelirli veri/dizin ürünü kurulmalıdır.**
+
+## AÇIK SORULAR
+
+1. Beş finans nişinden hangisinde doğrulanabilir uzmanlık veya özgün veri erişimi var?
+2. T1 kodsuz mu, T2 teknik kurulum mu tercih ediliyor?
+3. İlk altı ay için A, B veya C bütçesinden hangisi ayrılabilir?
+4. Şahıs işletmesi mevcut mu; yoksa gelir başlamadan kurulması kabul ediliyor mu?
+5. Haftada içerik, satış ve analiz için toplam kaç saat ayrılabilir?
+
+**KARAR: İlk strateji toplantısında bu beş soruya tek seçenekli yanıt verilmeden platform veya ücretli araç satın alınmamalıdır.**
+
+## İLK 5 AKSİYON
+
+1. Beş nişi sponsorluk potansiyeli, mevzuat riski, uzmanlık ve ürünleşme açısından 1-5 puanlayıp 48 saat içinde tek niş seç.
+2. Seçilen nişte 20 potansiyel okurla görüşüp en az 10 tekrarlanan ücretli problem kaydet.
+3. Bir mali müşavirden affiliate, sponsorluk, dijital ürün ve yurt dışı tahsilat için yazılı vergi kontrol listesi al.
+4. Tek sayfalık ücretsiz bülteni kurup 30 gün içinde 100 doğrulanmış izinli aboneye ulaş.
+5. İlk sekiz yayında UTM, benzersiz CTR, abonelikten çıkış ve kaynak bazlı büyümeyi aynı Google Sheets panelinde ölç.
+
+**KARAR: İlk hedef gelir değil, 30 günde 100 izinli abone ve sekiz yayın içinde ≥%2 benzersiz CTR ile talebi doğrulamaktır.**
+hook: Stop
+hook: Stop Completed
+tokens used
+15,305
+# FİNANS BLOGU VE BÜLTENİ: MONETİZASYON, BİRİM EKONOMİ VE ÖLÇÜM PLANI
+
+## 1. Gelir modellerinin karşılaştırılması
+
+| Model | Başlama eşiği | Türkiye için gerçekçi fiyat/getiri | Zorluk | Mevzuat riski | Kitleyi yıpratma riski |
+|---|---:|---:|---|---|---|
+| Bülten sponsorluğu | 2.500 nitelikli abone | ~20-50 US$ CPM; niş ve karar verici kitlede ~50-100 US$ CPM [DOĞRULA] | Orta | Orta-yüksek | Orta |
+| Görüntülü reklam | 20.000+ aylık sayfa görüntüleme | AdSense sayfa RPM’i ~0,5-3 US$; finans aramalarında ~2-6 US$ [DOĞRULA] | Düşük | Düşük-orta | Orta |
+| Affiliate | 500+ güvenen abone veya satın alma niyetli SEO trafiği | Satış/lead başına aşağıdaki aralıklar | Orta | Yüksek | Yüksek |
+| Ücretli abonelik | 5.000+ abone veya çok dar uzmanlık | Aylık 149-299 TL, yıllık 1.490-2.990 TL | Yüksek | BIST/kripto içeriğinde yüksek | Orta-yüksek |
+| Dijital ürün | 1.000+ abone | 199-1.500 TL; kurslarda 1.500-7.500 TL | Orta-yüksek | Orta | Düşük-orta |
+| Eğitim/danışmanlık | 500+ güvenen abone | Eğitim 750-3.000 TL/kişi; kurumsal çalışma 15.000-75.000 TL [DOĞRULA] | Yüksek | Yüksek | Orta |
+| İş ilanı/dizin/veri | 10.000+ abone veya belirgin sektör kitlesi | İlan 2.500-10.000 TL; veri üyeliği 299-1.500 TL/ay [DOĞRULA] | Yüksek | Orta | Düşük |
+
+### Sponsorluk
+
+Sponsor adayları aracı kurumlar, portföy yönetim şirketleri, fintech’ler, bankalar, sigorta şirketleri, kripto platformları, muhasebe/finans SaaS şirketleri ve eğitim markalarıdır. Başlangıçta CPM yerine paket satmak daha kolaydır: bir bülten içi yerleşim, bir blog görünürlüğü ve bir sosyal paylaşım için yaklaşık 5.000-15.000 TL [DOĞRULA]. Teslim edilen e-posta, benzersiz tıklama ve UTM sonuçları raporlanmalıdır.
+
+Tek sponsor bir sayının gelirinin tamamını oluşturmamalı; sponsor metni açık biçimde “Sponsorlu” veya “Reklam” olarak işaretlenmelidir.
+
+### Görüntülü reklam
+
+AdSense’in sabit trafik alt sınırı yoktur; fakat düşük Türkçe trafikle anlamlı gelir üretmez. Ezoic’in güncel kabul koşulları, Mediavine Journey’nin yaklaşık 1.000 oturumdan başlayan erişimi ve Raptive’ın trafik/ülke şartları başvuru öncesinde [DOĞRULA]. Bu ağların gelir vaadi çoğunlukla ABD, Kanada ve Birleşik Krallık trafiğine dayanır; Türkçe Türkiye trafiği aynı RPM’i üretmez.
+
+### Affiliate
+
+Gerçekçi brüt aralıklar şöyledir:
+
+- Aracı kurum hesabı: nitelikli hesap veya fonlama başına ~250-1.500 TL [DOĞRULA].
+- Kripto platformu: işlem ücretinin yaklaşık %20-50’si veya kampanya bazlı CPA [DOĞRULA].
+- Kredi kartı/banka ürünü: onaylanan müşteri başına ~300-1.500 TL [DOĞRULA].
+- Sigorta: lead başına ödeme veya poliçe değerinin yaklaşık %5-20’si [DOĞRULA].
+- Kitap: satışın yaklaşık %2-10’u.
+- Eğitim/kurs: satışın yaklaşık %10-30’u.
+
+Her bağlantının yanında veya içeriğin başında ticari ilişki açıklanmalıdır. “Bu bağlantı üzerinden hesap açarsanız komisyon kazanabilirim” gibi doğrudan ifade kullanılmalıdır. Ürün sıralaması komisyona göre değiştirilmemeli; getirilmeyen müşteri veya yatırım sonucu hakkında vaat verilmemelidir.
+
+### Ücretli abonelik ve ürünler
+
+Ücretsiz katman haber özeti, temel rehber ve haftalık içerik sunmalı; ücretli katman özgün veri seti, hesaplama aracı, ayrıntılı sektör dosyası ve arşiv erişimi vermelidir. Haberleri yeniden anlatmak tek başına paywall gerekçesi değildir.
+
+Türkiye kitlesinde TL fiyatlandırma daha uygundur: başlangıç için 199 TL/ay ve 1.990 TL/yıl test edilebilir. Enflasyon nedeniyle fiyat üç ayda bir gözden geçirilmelidir. Genel listelerde %1-3 ücretliye dönüşüm makuldür; %5 ancak güçlü uzmanlık ve tekrarlanan kullanıcı faydasıyla gerçekçidir. Aylık ücretli churn hedefi %3-5, alarm seviyesi %7 üzeridir.
+
+Niş önceliği: kişisel finansta şablon ve affiliate; BIST’te eğitim/veri ürünü; makro-ekonomide sponsorluk ve premium analiz; kriptoda sınırlı affiliate ve güçlü risk açıklaması; girişim finansmanında SaaS sponsorluğu, iş ilanı ve veri ürünü.
+
+**KARAR: İlk gelir kombinasyonu 1.000 abonede dijital ürün + sınırlı affiliate, 2.500 abonede sponsorluk; ücretli abonelik yalnızca 5.000 aboneden ve doğrulanmış premium talepten sonra açılmalıdır.**
+
+## 2. Mevzuat ve tahsilat gerçeği
+
+Finans yayıncılığında temel risk, genel eğitim ile kişiye özel yatırım tavsiyesi arasındaki sınırdır. 6362 sayılı Sermaye Piyasası Kanunu ve III-37.1 sayılı *Yatırım Hizmetleri ve Faaliyetleri ile Yan Hizmetlere İlişkin Esaslar Hakkında Tebliğ* incelenmelidir. Okurun portföyü, risk profili veya mali durumuna göre “al/sat” yönlendirmesi yapmak lisanslı yatırım danışmanlığı alanına girebilir. “Yatırım tavsiyesi değildir” ibaresi, faaliyetin özü danışmanlıksa tek başına koruma sağlamaz.
+
+E-posta toplama ve analitik için 6698 sayılı KVKK; ticari e-posta için 6563 sayılı Elektronik Ticaretin Düzenlenmesi Hakkında Kanun, ilgili yönetmelik ve İleti Yönetim Sistemi yükümlülükleri değerlendirilmelidir. Ücretli dijital ürünlerde 6502 sayılı Kanun, Mesafeli Sözleşmeler Yönetmeliği, ön bilgilendirme ve cayma hakkı hükümleri uygulanabilir.
+
+Türkiye’de Stripe doğrudan satıcı hesabı sunmamaktadır [DOĞRULA]. Alternatifler:
+
+| Altyapı | En uygun kullanım | Yaklaşık maliyet | Kritik nokta |
+|---|---|---:|---|
+| iyzico / PayTR | TL abonelik, ürün, kurs | ~%2,5-5 + sabit ücret [DOĞRULA] | Genellikle şirket/vergi kaydı ve entegrasyon gerekir |
+| Shopier | İlk dijital ürün testi | ~%3-6 [DOĞRULA] | Kolay başlangıç; abonelik ve veri aktarımı sınırlı olabilir |
+| Paddle | Yazılım/veri ürünü, döviz satışı | ~%5 + 0,50 US$ [DOĞRULA] | Merchant of Record; Türkiye kabulü ve ödeme yöntemi doğrulanmalı |
+| Lemon Squeezy | Dijital ürün/abonelik | ~%5 + 0,50 US$, ek ücretler olabilir [DOĞRULA] | Türkiye’ye payout ve ürün uygunluğu doğrulanmalı |
+| Gumroad | E-kitap/şablon | ~%10 + ilgili işlem maliyetleri [DOĞRULA] | Marj düşüktür; payout koşulları doğrulanmalı |
+| Polar | Teknik dijital ürün | ~%4 + 0,40 US$ [DOĞRULA] | Türkiye satıcı desteği doğrulanmalı |
+| Patreon / Kreosus | Üyelik ve destek | Toplam ~%8-15 [DOĞRULA] | Platform bağımlılığı ve kur riski |
+| Havale/EFT | Danışmanlık ve az sayıda kurumsal satış | Banka masrafı | Otomatik yenileme ve mutabakat zayıf |
+
+Yurt dışından kazanılan para otomatik olarak vergiden muaf değildir. Şahıs işletmesi üzerinden fatura, hizmet ihracı koşulları, KDV istisnası ve döviz kazandırıcı hizmet hükümleri mali müşavirle işlem bazında [DOĞRULA]. İçerik üreticisi kazanç istisnasının sponsorluk, danışmanlık, affiliate ve yurt dışı platform ödemelerine uygulanması da ayrı ayrı doğrulanmalıdır.
+
+**KARAR: Türkiye müşterileri için iyzico/PayTR, ilk ürün doğrulaması için Shopier; uluslararası dijital ürün için ancak satıcı ve payout uygunluğu doğrulandıktan sonra Paddle veya Lemon Squeezy kullanılmalıdır.**
+
+## 3. Üç ölçek için birim ekonomi
+
+Aşağıdaki tablo başarılı fakat aşırı iyimser olmayan karma gelir modelidir. Tutarlar aylık US$ karşılığıdır; döviz kuru sabitlenmemiştir. Vergi karşılığı olarak faaliyet kârının %25’i ayrılmıştır; bu oran hukuki vergi hesabı değildir [DOĞRULA].
+
+| Aylık kalem | 1.000 abone | 10.000 abone | 50.000 abone |
+|---|---:|---:|---:|
+| Sponsorluk | 75 | 1.000 | 5.000 |
+| Affiliate | 40 | 400 | 2.000 |
+| Ücretli üyelik | 0 | 750 | 3.700 |
+| Dijital ürün/eğitim | 60 | 250 | 1.500 |
+| Reklam/veri/ilan | 0 | 100 | 1.400 |
+| **Brüt gelir** | **175** | **2.500** | **13.600** |
+| Platform + ESP | 20 | 120 | 400 |
+| Domain | 2 | 2 | 2 |
+| Analitik/araçlar | 10 | 80 | 250 |
+| Muhasebe | 80 | 120 | 200 |
+| Tasarım/stok görsel | 10 | 60 | 200 |
+| Tahsilat/satış komisyonu | 5 | 120 | 550 |
+| **Vergi öncesi faaliyet kârı** | **48** | **1.998** | **11.998** |
+| %25 vergi rezervi | 12 | 500 | 3.000 |
+| **Rezerv sonrası nakit** | **36** | **1.498** | **8.998** |
+
+Bu rakamlar garanti değil, kapasite modelidir. Ücretli üyelik varsayımı 10.000 abonede yaklaşık %2, 50.000’de yaklaşık %1,5 dönüşümdür. Sponsor bulunamayan aylar için yıllık planlama yapılırken sponsorluk gelirine %30 boşluk indirimi uygulanmalıdır.
+
+Bütçe A’da ücretsiz/ucuz ESP, alan adı ve temel araçlarla başlanır; muhasebe zorunluluğu doğduğunda gider bütçeyi aşabilir. Bütçe B, 5.000-15.000 abone aralığına uygundur. Bütçe C, büyüme deneyi, ücretli veri, tasarım ve satış desteği için ancak ürün-pazar uyumu görüldükten sonra kullanılmalıdır.
+
+**KARAR: Başlangıçta Bütçe A; aylık gelir üç ay üst üste 500 US$ karşılığını geçtiğinde Bütçe B, 3.000 US$ ve pozitif katkı marjı görüldüğünde Bütçe C’ye geçilmelidir.**
+
+## 4. Gelir modeli açma kapıları
+
+| Kapı | Açılacak model | Ölçülebilir şart |
+|---|---|---|
+| 500 abone | Sınırlı affiliate | Son dört bültende benzersiz CTR ≥%2 |
+| 1.000 abone | E-kitap/şablon ön satışı | En az 20 ödeme niyeti veya 10 satış |
+| 2.500 abone | Sponsorluk satışı | Açılma ≥%35, CTR ≥%2, düzenli yayın ≥8 hafta |
+| 5.000 abone | Premium pilot | En az 100 kişilik bekleme listesi veya 25 peşin müşteri |
+| 10.000 abone | Düzenli sponsor takvimi | Sponsor yenileme oranı ≥%30 |
+| 25.000 abone | İlan/dizin/veri ürünü | Aynı ihtiyacı bildiren en az 10 kurumsal görüşme |
+| 50.000 abone | Reklam ağı ve satış paketi | Aylık 100.000+ sayfa görüntüleme veya ağın güncel eşiği |
+
+Hiçbir aşamada sponsor ve affiliate toplamı gelirin %70’ini aşmamalıdır. Tek sponsorun payı toplam gelirin %25’ini geçmemelidir.
+
+**KARAR: İlk ticari teklif 1.000 abonede küçük ürün, ilk sponsor satışı 2.500 abonede; paywall 5.000 abone ve peşin talep kanıtı olmadan açılmamalıdır.**
+
+## 5. Analitik yığını
+
+Bütçe A için Google Search Console, ESP analitiği ve Google Sheets yeterlidir. GA4 ücretsizdir fakat analitik çerezleri ve reklam özellikleri nedeniyle açık rıza, çerez yönetimi ve KVKK değerlendirmesi gerektirebilir. Consent Mode rızanın yerine geçmez.
+
+Plausible ücretli ve daha sadedir; Umami kendi sunucunda çalıştırılabilir. Çerezsiz ve kişisel veri toplamayan yapılandırmalar banner ihtiyacını azaltabilir, fakat tamamen ortadan kaldırdığı otomatik varsayılmamalıdır. Sunucu konumu, IP işleme, veri aktarımı ve saklama süresi belgelenmelidir.
+
+Her bağlantı şu şemayı kullanmalıdır:
+
+`utm_source=newsletter&utm_medium=email&utm_campaign=2026_08_hafta_3&utm_content=sponsor_marka`
+
+Google Sheets veya Looker Studio panelinde haftalık satırlar; gönderilen e-posta, teslim, benzersiz tıklama, abonelikten çıkış, kaynak bazlı yeni abone, gelir modeli, tahsilat maliyeti ve içerik üretim saati sütunları tutulmalıdır.
+
+**KARAR: T1 için Plausible + Search Console + ESP + Google Sheets; T2 ve Bütçe A için Umami + Search Console + ESP + Sheets kullanılmalı, reklam hedefleme başlayınca ayrı rıza yönetimi eklenmelidir.**
+
+## 6. KPI seti ve kıyaslar
+
+| KPI | Başlangıç hedefi | Alarm seviyesi |
+|---|---:|---:|
+| Aylık net abone büyümesi | İlk yıl %5-10; ölçekte %2-5 | İki ay <%2 |
+| Açılma oranı | %35-55 | <%30 |
+| Benzersiz CTR / teslim | %2-5 | <%1,5 |
+| Abonelikten çıkış / gönderim | <%0,3 | >%0,5 |
+| Spam şikâyeti | <%0,1 | ≥%0,1 |
+| Bounce | <%1 | >%2 |
+| Ücretliye dönüşüm | %1-3 | <%1 |
+| Ücretli aylık churn | %3-5 | >%7 |
+| Sponsor CTR | %0,5-1,5 [DOĞRULA] | <%0,5 |
+
+Apple Mail Privacy Protection açılmaları yapay olarak yükselttiği için açılma oranı karar KPI’ı değildir. Birincil kalite göstergesi benzersiz CTR, ikincil göstergeler yanıt sayısı ve dönüşümdür.
+
+E-posta başına gelir `toplam gelir / teslim edilen e-posta` olarak RPE; bin teslim başına gelir ise EPM olarak izlenmelidir. LTV yaklaşık olarak `aylık net ARPU / aylık churn` formülüyle hesaplanabilir. Ücretli abone edinme maliyeti, 12 aylık katkı LTV’sinin %30-40’ını aşmamalıdır.
+
+**KARAR: Yönetim panelinin birincil KPI’ları net abone büyümesi, benzersiz CTR, aylık churn, RPE ve 12 aylık katkı LTV/CAC oranı olmalıdır.**
+
+## 7. Üç aşamalı gelir yol haritası
+
+### 0-6 ay: Güven ve talep doğrulama
+
+Haftalık ücretsiz yayın, 20-30 kalıcı blog yazısı ve tek bir ücretsiz hesaplama/şablon üretilecektir. Affiliate en fazla içeriklerin %20’sinde kullanılacak; sponsor veya paywall zorlanmayacaktır. Bir küçük ürün ön satışı yapılacaktır.
+
+Çıkış kriteri: 1.000 abone, sekiz hafta kesintisiz yayın, ≥%2 CTR, en az 10 ürün satışı ve organik trafikten ayda 250 yeni ziyaretçi.
+
+### 6-18 ay: Karma geliri kurma
+
+Ayda en fazla dört sponsor yerleşimi, bir dijital ürün ve sınırlı premium pilot açılacaktır. Sponsor satış dosyasında kitle profili, teslim, CTR ve geçmiş sonuç bulunacaktır.
+
+Çıkış kriteri: 10.000 abone, üç ay üst üste giderlerin en az iki katı gelir, ≥%30 sponsor yenileme, ücretli churn <%5 ve hiçbir gelir kaynağının payı >%50 olmaması.
+
+### 18+ ay: Ölçek ve savunulabilir ürün
+
+Veri üyeliği, iş ilanı, dizin veya kurumsal eğitimden biri ana ürüne dönüştürülecektir. Editoryal bağımsızlık politikası ve yıllık sponsor sınırları yayımlanacaktır.
+
+Çıkış kriteri: 50.000 abone, altı aylık gider rezervi, gelirin en az üç modele dağılması ve kurucunun içerik dışı operasyon süresinin haftada sekiz saatin altına indirilmesi.
+
+En yaygın hatalar erken paywall, komisyonu yüksek diye alakasız ürün önermek, her sayıyı sponsorla doldurmak, UTM kullanmamak, Apple açılmalarını gerçek ilgi sanmak ve tek kripto/aracı kurum sponsoruna bağımlı kalmaktır.
+
+**KARAR: 0-6 ay ürün talebi, 6-18 ay sponsor + ürün + premium dengesi, 18+ ay tekrarlanan gelirli veri/dizin ürünü kurulmalıdır.**
+
+## AÇIK SORULAR
+
+1. Beş finans nişinden hangisinde doğrulanabilir uzmanlık veya özgün veri erişimi var?
+2. T1 kodsuz mu, T2 teknik kurulum mu tercih ediliyor?
+3. İlk altı ay için A, B veya C bütçesinden hangisi ayrılabilir?
+4. Şahıs işletmesi mevcut mu; yoksa gelir başlamadan kurulması kabul ediliyor mu?
+5. Haftada içerik, satış ve analiz için toplam kaç saat ayrılabilir?
+
+**KARAR: İlk strateji toplantısında bu beş soruya tek seçenekli yanıt verilmeden platform veya ücretli araç satın alınmamalıdır.**
+
+## İLK 5 AKSİYON
+
+1. Beş nişi sponsorluk potansiyeli, mevzuat riski, uzmanlık ve ürünleşme açısından 1-5 puanlayıp 48 saat içinde tek niş seç.
+2. Seçilen nişte 20 potansiyel okurla görüşüp en az 10 tekrarlanan ücretli problem kaydet.
+3. Bir mali müşavirden affiliate, sponsorluk, dijital ürün ve yurt dışı tahsilat için yazılı vergi kontrol listesi al.
+4. Tek sayfalık ücretsiz bülteni kurup 30 gün içinde 100 doğrulanmış izinli aboneye ulaş.
+5. İlk sekiz yayında UTM, benzersiz CTR, abonelikten çıkış ve kaynak bazlı büyümeyi aynı Google Sheets panelinde ölç.
+
+**KARAR: İlk hedef gelir değil, 30 günde 100 izinli abone ve sekiz yayın içinde ≥%2 benzersiz CTR ile talebi doğrulamaktır.**

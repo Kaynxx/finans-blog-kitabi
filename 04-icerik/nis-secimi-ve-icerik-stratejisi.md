@@ -1,0 +1,203 @@
+# NİŞ SEÇİMİ, RAKİP ANALİZİ VE İÇERİK STRATEJİSİ
+
+## 1. Türkçe finans içerik pazarının haritası
+
+Aşağıdaki RPM tahminleri, ağırlıklı Türkiye trafiğinde 1.000 sayfa görüntüleme başına reklam geliri için kaba aralıktır; reklam ağı, ziyaretçi profili ve mevsime göre ciddi değişir.
+
+| Alt niş | Kitle | Rekabet | Ödeme isteği | Tahmini reklam RPM’i | Üretim maliyeti | Mevzuat riski |
+|---|---|---:|---:|---:|---:|---:|
+| Kişisel finans, bütçe, borç | Çok büyük | Orta | Orta | ~$1–4 [DOĞRULA] | Düşük; 4–6 saat/yazı | Düşük-orta |
+| Enflasyonda birikimi koruma | Çok büyük | Orta | Yüksek | ~$2–6 [DOĞRULA] | Orta; güncel veri gerekir | Orta |
+| BIST ve bilanço analizi | Büyük | Çok yüksek | Yüksek | ~$2–8 [DOĞRULA] | Yüksek; KAP/veri takibi | Yüksek |
+| Temettü yatırımı | Orta-büyük | Yüksek | Yüksek | ~$2–7 [DOĞRULA] | Orta-yüksek | Yüksek |
+| ABD hisseleri, ETF ve fon | Büyüyen, orta | Orta-yüksek | Yüksek | ~$3–10 [DOĞRULA] | Yüksek; vergi ve döviz boyutu | Yüksek |
+| Makro, TCMB, faiz ve kur | Büyük | Çok yüksek | Orta | ~$1–5 [DOĞRULA] | Çok yüksek; sürekli güncelleme | Orta |
+| Kripto | Büyük fakat döngüsel | Çok yüksek | Yüksek | ~$2–10 [DOĞRULA] | Çok yüksek; 7/24 piyasa | Çok yüksek |
+| Emeklilik, BES, sigorta | Orta-büyük | Düşük-orta | Yüksek | ~$3–10 [DOĞRULA] | Orta | Orta |
+| Girişim/KOBİ/şirket finansı | Orta fakat değerli | Düşük | Çok yüksek | ~$5–15 [DOĞRULA] | Yüksek; uzman görüşü gerekir | Orta |
+| Vergi ve teşvikler | Büyük, arama odaklı | Orta | Çok yüksek | ~$4–15 [DOĞRULA] | Çok yüksek; hızla eskir | Yüksek |
+| Fintech ürün karşılaştırma | Çok büyük | Çok yüksek | Yüksek | ~$3–12 [DOĞRULA] | Çok yüksek; oranlar günlük değişir | Yüksek |
+
+Mevzuat açısından 6362 sayılı Sermaye Piyasası Kanunu ve yatırım hizmetlerine ilişkin SPK düzenlemeleri önemlidir. “Yatırım tavsiyesi değildir” ibaresi, kişiye veya ürüne yönelik sistematik tavsiyeyi tek başına güvenli hâle getirmez. Sponsorlu içerikte 6502 sayılı Kanun ve Ticari Reklam ve Haksız Ticari Uygulamalar Yönetmeliği; e-posta toplamada 6698 sayılı KVKK ve ticari ileti gönderiminde 6563 sayılı Kanun dikkate alınmalıdır.
+
+En iyi giriş noktası, yatırım ürünü seçtirmek yerine Türkiye’de yaşayan çalışanın “maaşımın değerini nasıl ölçer, nakit akışımı nasıl yönetir, seçenekleri nasıl karşılaştırırım?” sorusunu cevaplamaktır. Bu alan hem kitlesel hem araç üretmeye uygundur ve doğrudan hisse tavsiyesinden daha düşük risk taşır.
+
+**KARAR: İlk niş “Türkiye’de enflasyon altında kişisel finans ve birikim kararları”; ikincil kümeler BES, fonlar ve çalışan vergileri olmalıdır.**
+
+## 2. Rakip ve boşluk analizi
+
+| Oyuncu | Ana format ve güçlü taraf | Muhtemel gelir modeli | Açık kalan boşluk |
+|---|---|---|---|
+| Mahfi Eğilmez – *Kendime Yazılar* | Derin makro yazıları, yüksek güven | Kitap, konuşma ve dolaylı marka etkisi [DOĞRULA] | Yeni başlayan için uygulanabilir kontrol listeleri |
+| Midas / Midas’ın Kulakları | Günlük piyasa haberleri, uygulama dağıtımı | Aracılık geliri; içerik edinme kanalı | Kurumdan bağımsız ürün karşılaştırması |
+| Fintables | BIST verisi, ekranlar, analiz içerikleri | Ücretli üyelik ve veri hizmeti [DOĞRULA] | Finansal tablosu olmayan haneler için karar araçları |
+| TEFAS ve KAP | Birincil, ücretsiz resmî veri | Kamu altyapısı | Veriyi sadeleştiren tarafsız kullanım rehberleri |
+| Aposto/Pareto | Kürasyon ve e-posta odaklı ekonomi anlatımı | Sponsorluk/üyelik [DOĞRULA] | Kalıcı, güncellenen arama rehberleri |
+| Ekonomim ve Dünya | Haber, köşe yazısı, geniş gündem | Reklam ve abonelik [DOĞRULA] | Okuru karara götüren hesaplama ve vaka çalışması |
+| ParaAnaliz | Piyasa yorumu ve güncel analiz | Reklam/sponsorluk [DOĞRULA] | Sistematik başlangıç eğitim dizileri |
+| Özgür Demirtaş | Sosyal medya ve video, geniş erişim | Konuşma/akademik marka [DOĞRULA] | Düzenli araçlar ve kişisel uygulama akışı |
+| Mert Başaran | Tasarruf ve yatırım motivasyonu, video | YouTube, kitap, etkinlik [DOĞRULA] | Kaynaklı veri, ayrıntılı karşılaştırma metodolojisi |
+| Barış Soydan | Makro/piyasa gündemi, video ve sosyal medya | YouTube ve medya işleri [DOĞRULA] | Hane bütçesine çevrilmiş sonuçlar |
+
+Pazardaki asıl boşluk “bir finans konusu daha anlatmak” değildir. Boşluk; tarih damgalı veri, açık formül, indirilebilir şablon ve gerçekçi hane vakasını aynı içerikte birleştiren bağımsız bir karar laboratuvarıdır. Banka mevduatı, para piyasası fonu, borç kapatma ve BES gibi seçenekler aynı varsayımlarla karşılaştırılmalıdır.
+
+**KARAR: Haber hızında rakiplerle yarışma; resmî veriyi kişisel karara dönüştüren haftalık bağımsız yayın konumunu sahiplen.**
+
+## 3. Konumlandırma ve farklılaşma
+
+Önerilen vaat:
+
+> “Türkiye’de maaşla yaşayanlar için enflasyon, vergi ve finansal ürünleri gerçek rakamlarla sadeleştiren haftalık karar rehberi.”
+
+Farklılaşma sistemi beş parçalı olmalıdır:
+
+1. Her hesaplamada veri tarihi, kaynak bağlantısı ve varsayımlar gösterilir.
+2. Yazıların yanında Google Sheets/Excel şablonu veya basit hesap makinesi bulunur.
+3. Örnekler “50.000 TL birikim, 12 ay vade” gibi somut senaryolarla anlatılır.
+4. Yanlış tahminler ve eskiyen içerikler sessizce silinmez; değişiklik günlüğü tutulur.
+5. Hedef segment önce beyaz yakalı/yeni mezun çalışan olarak daraltılır; esnaf ve serbest çalışan içeriği doğrulama kapasitesi oluşunca eklenir.
+
+Gerçek portföy günlüğü ilgi çekebilir fakat mahremiyet ve tavsiye algısı yaratır. Bunun yerine anonimleştirilmiş model haneler kullanılmalıdır.
+
+Bütçe senaryosu da konumu etkiler:
+
+- **A (~$0–10/ay):** Ücretsiz EVDS, TÜİK, KAP, TEFAS ve Sheets; kaynaklı rehber + şablon.
+- **B (~$25–60/ay):** E-posta aracı, tasarım/veri otomasyonu ve sınırlı ücretli veri.
+- **C ($100+/ay):** Profesyonel veri, hukuk/vergi uzmanı kontrolü ve özgün interaktif araçlar.
+
+**KARAR: T1’de şablon ve vaka anlatımı; T2’de bunlara interaktif hesap makineleri eklenerek “karar laboratuvarı” markası kurulmalıdır.**
+
+## 4. Pillar–cluster içerik mimarisi
+
+### Pillar 1: Türkiye’de Enflasyona Karşı Birikimi Koruma Rehberi
+
+- TÜFE ile kişisel enflasyon nasıl hesaplanır?
+- Mevduatın reel getirisi nasıl bulunur?
+- Para piyasası fonu ile mevduat karşılaştırması
+- Altın makası getiriyi nasıl etkiler?
+- Acil durum fonu kaç aylık olmalı?
+- 100.000 TL için 12 aylık senaryo tablosu
+
+### Pillar 2: Maaşlı Çalışan İçin Sıfırdan Bütçe Sistemi
+
+- 50/30/20 kuralı Türkiye’de uygulanabilir mi?
+- Kredi kartı borcu kapatma planı
+- Ek hesap faizi nasıl hesaplanır?
+- Düzensiz giderler için yıllık bütçe
+- Maaş artışı sonrası yaşam tarzı enflasyonu
+- Net servet tablosu nasıl hazırlanır?
+
+### Pillar 3: Yatırım Fonlarına Başlangıç
+
+- TEFAS fonu nasıl karşılaştırılır?
+- Yönetim ücreti getiriyi nasıl etkiler?
+- Para piyasası, borçlanma ve hisse fonu farkı
+- Fon stopajı nasıl hesaplanır? [DOĞRULA]
+- Fonlarda risk değeri ne anlama gelir?
+- Geçmiş getiri tuzağından nasıl kaçınılır?
+
+### Pillar 4: BES ve Emeklilik Planlama
+
+- BES devlet katkısı nasıl işler? [DOĞRULA]
+- BES’ten erken çıkışın maliyeti
+- BES fonu nasıl değiştirilir?
+- Emeklilik için aylık ne kadar biriktirmeliyim?
+- Otomatik katılım ile gönüllü BES farkı
+- BES, mevduat ve fon karşılaştırması
+
+### Pillar 5: Maaş, Vergi ve Yan Haklar
+
+- Brüt maaştan net maaş nasıl hesaplanır?
+- Vergi dilimi maaşı hangi ay etkiler?
+- Yemek ve yol yardımında vergi sınırları [DOĞRULA]
+- Prim ve ikramiyenin net maaşa etkisi
+- İş değiştirirken toplam paket karşılaştırması
+- Serbest çalışan için aylık nakit rezervi
+
+**KARAR: İlk 90 günde Pillar 1 ve 2 tamamlanmalı; diğer pillar’lar yalnızca birer doğrulama yazısıyla test edilmelidir.**
+
+## 5. Format karışımı
+
+| Format | Arama trafiği | Abone kazanımı | Paylaşılma | Önerilen sıklık |
+|---|---:|---:|---:|---:|
+| Güncellenen uzun rehber | Çok yüksek | Orta | Orta | Ayda 2 |
+| Haftalık piyasa/karar özeti | Düşük | Çok yüksek | Orta | Haftada 1 |
+| Veri grafiği | Orta | Orta | Çok yüksek | Haftada 1 |
+| Hesaplama aracı/şablon | Çok yüksek | Çok yüksek | Çok yüksek | Ayda 1 |
+| Uzman röportajı | Düşük | Yüksek | Yüksek | Ayda 1 |
+| Model hane vaka analizi | Yüksek | Yüksek | Yüksek | Ayda 2 |
+
+**KARAR: Üretim kapasitesinin %50’si kalıcı rehber ve araçlara, %30’u bültene, %20’si grafik/vakaya ayrılmalıdır.**
+
+## 6. Blog ile bültenin ilişkisi
+
+Aynı metni iki kanalda kopyalamak, bülteni gereksizleştirir. Blog “aranan sorunun eksiksiz cevabı”; bülten ise “bu hafta ne değişti, neden önemli, hangi adım atılabilir?” olmalıdır.
+
+Önerilen akış bülten öncedir: Cuma günü kısa bir veri gözlemi ve vaka gönderilir; okur soruları izleyen hafta kalıcı blog yazısına işlenir. Bültenlerin tamamı indekslenmek yerine 250–400 kelimelik özet arşivi yayımlanmalı, tam sürüm e-postada kalmalıdır. Güçlü sayılar daha sonra konu bazlı rehberlere birleştirilir; tarihsel oran içeren sayfalarda “son güncelleme” bulunur.
+
+**KARAR: Bülten test laboratuvarı, blog doğrulanmış bilgi kütüphanesi olmalıdır.**
+
+## 7. Solo yayın temposu ve tekrar kullanım
+
+Sürdürülebilir taban tempo haftada bir bülten, iki haftada bir derin blog yazısı ve ayda bir araçtır. Bir haftalık üretim döngüsü: pazartesi veri toplama, salı taslak, çarşamba doğrulama, perşembe düzenleme, cuma yayın.
+
+Bir araştırma paketi dört çıktıya dönüşmelidir: uzun rehber, e-posta özeti, tek grafik ve kısa sosyal medya dizisi. Ayın son günü eski oran, vergi ve mevzuat içeren sayfalar kontrol edilir. T1 için haftada 8–10 saat; T2’de araç geliştirmeyle 12–15 saat gerçekçi başlangıçtır.
+
+**KARAR: İlk üç ay haftada bir bülten + iki haftada bir blog + ayda bir araç sınırı aşılmamalıdır.**
+
+## 8. Yapay zekâ kullanım politikası
+
+Yapay zekâ; başlık varyasyonu, taslak iskeleti, tablo biçimlendirme, röportaj çözümü ve tekrar kullanımda hızlandırıcıdır. Faiz oranı, stopaj, devlet katkısı, fon getirisi, şirket bilançosu veya mevzuat hükmü için kaynak değildir.
+
+Her sayısal iddia EVDS, TÜİK, TCMB, KAP, TEFAS, Gelir İdaresi Başkanlığı, Resmî Gazete veya ürünün resmî fiyat sayfasından insan tarafından doğrulanmalıdır. Her içerikte “veri tarihi”, “kaynaklar”, “varsayımlar” ve gerekiyorsa “çıkar ilişkisi” kutusu bulunmalıdır. Yapay zekâyla uydurulmuş alıntı, uzman görüşü veya geçmiş getiri itibarı hızla yok eder.
+
+**KARAR: Yapay zekâ editoryal yardımcı olarak kullanılmalı; hiçbir finansal rakam tek başına yapay zekâ çıktısından yayımlanmamalıdır.**
+
+## 9. İlk 90 gün içerik planı
+
+| Hafta | Blog/araç | Bülten |
+|---:|---|---|
+| 1 | Okur problemi anketi ve 3 model hane | “Paranızın gerçek problemi hangisi?” |
+| 2 | Kişisel enflasyon hesaplama rehberi | TÜFE ile kişisel sepet farkı |
+| 3 | Kişisel enflasyon Sheets şablonu | Örnek çalışan hesabı |
+| 4 | Reel getiri hesaplama rehberi | Mevduatta görünen ve gerçek getiri |
+| 5 | Mevduat–para piyasası fonu vaka analizi | Karşılaştırma kontrol listesi |
+| 6 | Birikim karşılaştırma hesaplayıcısı | 100.000 TL senaryosu |
+| 7 | Acil durum fonu rehberi | Üç model hane, üç hedef |
+| 8 | Kredi kartı borcu kapatma planı | Kart borcunda öncelik sırası |
+| 9 | Borç kapatma Sheets şablonu | Kartopu ve çığ yöntemi |
+| 10 | Türkiye’ye uyarlanmış bütçe sistemi | 50/30/20 neden yetmeyebilir? |
+| 11 | TEFAS fon karşılaştırma başlangıcı | Fon seçerken beş yanlış ölçüt |
+| 12 | 90 günlük veri ve okur sonuç raporu | En çok okunanlar ve sonraki oylama |
+
+**KARAR: 90 gün sonunda konu değil; abone dönüşümü, tekrar ziyaret ve araç kullanımı verilerine göre ikinci çeyrek seçilmelidir.**
+
+## 10. Üç kazanma tezi
+
+1. **Enflasyon altında çalışan finansı:** Maaşlı çalışanlara reel getiri, bütçe, borç ve fon kararlarını hesaplarla anlatır. Büyük kitle, sürekli acı noktası ve görece yönetilebilir mevzuat riski sunar.
+2. **Bağımsız fon/BES laboratuvarı:** Fon, BES ve emeklilik ürünlerini açık metodolojiyle karşılaştırır. Ticari değeri yüksektir fakat veri bakımı ve uzman kontrolü gerektirir.
+3. **KOBİ sahibinin finans masası:** Nakit akışı, vergi, kredi ve teşvik rehberleri sunar. Rekabet az ve ödeme isteği yüksek; ancak başlangıçta uzman ağı olmadan hata maliyeti büyüktür.
+
+Seçim birinci tezdir. Kitle sıfırken geniş fakat belirgin bir probleme erişir; ücretsiz resmî veriyle üretilebilir; bülten, hesap makinesi ve ileride ücretli şablon/üyelik için doğal yol açar. Fon/BES ikinci aşama, KOBİ finansı ise uzman ortaklığı kurulduktan sonraki ayrı ürün olmalıdır.
+
+**KARAR: “Enflasyon altında çalışan finansı” kazanma teziyle başlanmalıdır.**
+
+## AÇIK SORULAR
+
+1. Haftada içerik üretimine düzenli olarak kaç saat ayrılabilir?
+2. T1 mi T2 mi geçerli: kod yazılmayacak mı, basit araç geliştirilebilir mi?
+3. Kurucunun doğrulanabilir uzmanlığı hangi alanda: bütçe, yatırım, muhasebe, veri analizi veya girişimcilik?
+4. Kişisel isimle mi, bağımsız yayın markasıyla mı ilerlenmek isteniyor?
+5. İlk gelir hedefi reklam, sponsorluk, üyelik, danışmanlık veya dijital ürünlerden hangisi?
+
+**KARAR: Bu beş cevap alınmadan marka adı ve teknoloji seçilmemeli; içerik doğrulama çalışması başlatılmalıdır.**
+
+## İLK 5 AKSİYON
+
+1. İlk 48 saatte hedef kitleyi “Türkiye’de maaşla çalışan 22–40 yaş grubu” olarak yazılı biçimde sabitle.
+2. Yedi gün içinde hedef kitleden 10 kişiyle 20 dakikalık problem görüşmesi yap ve kullanılan ifadeleri kaydet.
+3. Onuncu güne kadar kişisel enflasyon, reel getiri ve borç planı için üç örnek içerik özeti hazırla.
+4. On dört gün içinde tek sayfalık kişisel enflasyon hesaplama şablonunu ve kaynak kontrol listesini yayımla.
+5. İlk 30 günde dört bülten gönderip konu başına abonelik dönüşümü ve yanıt sayısını ölç.
+
+**KARAR: İlk başarı ölçütü trafik değil, 30 günde 50 nitelikli abone ve en az 10 doğrudan okur yanıtıdır.**
