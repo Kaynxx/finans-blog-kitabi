@@ -79,3 +79,782 @@ hook: SessionStart
 hook: SessionStart Completed
 hook: UserPromptSubmit
 hook: UserPromptSubmit Completed
+codex
+# LANE G — Reklam Entegrasyonu, Ad Tech API’leri ve Teknik Yerleşim
+
+> Fiyatlar, ağ kabul koşulları, vergi eşikleri ve ürün politikaları sık değişir. Güncel kaynaktan teyit edilemeyen rakamlar **[DOĞRULA]** ile işaretlenmiştir.
+
+## 1. Reklam Ağları ve Kabul Eşikleri
+
+| Ürün / ağ | Yaklaşık giriş eşiği | Türkiye uyumu | Entegrasyon ve kontrol |
+|---|---:|---|---|
+| **Google AdSense** | Resmî minimum trafik veya yazı sayısı yok | Türkçe ve Türkiye yayıncıları desteklenir | `adsbygoogle.js`, manuel birimler, Auto Ads; manuel kullanımda yüksek tasarım kontrolü |
+| **Google Ad Manager** | Resmî trafik eşiği yok; operasyonel olarak doğrudan satış veya birden fazla talep kaynağı gerektiğinde anlamlı | Uygun | Google Publisher Tag, doğrudan kampanya, AdSense/Ad Exchange talebi; çok yüksek kontrol |
+| **Ezoic** | Eski 10.000 görüntülenme şartı kaldırıldı; küçük siteler için giriş programının güncel koşulları **[DOĞRULA]** | Teknik olarak mümkün; Türkçe envanter talebi ayrıca doğrulanmalı | DNS/CDN veya script entegrasyonu; otomatik yerleşim tasarımı zorlayabilir |
+| **Journey by Mediavine** | Yaklaşık 1.000 aylık oturum ve Grow ölçüm dönemi **[DOĞRULA]** | Kabul mümkün olsa da İngilizce ve yüksek gelirli ülke trafiği avantajlı | Script; orta düzey yerleşim kontrolü |
+| **Mediavine** | Yeni kriter yıllık yaklaşık 5.000 USD reklam geliri **[DOĞRULA]**; eski 50.000 oturum eşiğine güvenilmemeli | Ağırlıklı Türkiye trafiğinin kabul ve gelir potansiyeli düşük olabilir | Yönetilen reklam altyapısı; optimizasyon güçlü, özgürlük sınırlı |
+| **Raptive / eski AdThrive** | Yaklaşık 25.000 aylık sayfa görüntüleme; belirli oranda ABD, Kanada, Birleşik Krallık, Avustralya veya Yeni Zelanda trafiği ister **[DOĞRULA]** | Türkiye ağırlıklı site için zayıf aday | Yönetilen entegrasyon; gelir paylaşımı yaklaşık %75 yayıncı lehine **[DOĞRULA]** |
+| **Setupad** | Yaklaşık 100.000 aylık sayfa görüntüleme **[DOĞRULA]** | Başvuruyu kabul edebilir; Türkçe talep ayrı değerlendirilir | Header bidding script’i; gelir paylaşımı sözleşmeye bağlı |
+| **Snigel** | Yaklaşık 2 milyon görüntülenme veya belirli günlük AdSense geliri **[DOĞRULA]** | Başvuru bazında | Yönetilen header bidding; tasarım kontrolü sözleşme ve yerleşim planına bağlı |
+| **Newor Media** | Yaklaşık 30.000 aylık tekil kullanıcı ve ağırlıklı ABD trafiği **[DOĞRULA]** | Türkiye ağırlıklı yayın için uygun olmayabilir | Script ve yönetilen reklam operasyonu |
+| **Türkiye yerel SSP/ağları** | Ağ bazında değişir | Muhtemelen daha iyi yerel talep | Güncel, güvenilir isim ve sözleşme koşulları araştırılmadan liste verilmemeli **[DOĞRULA]** |
+
+AdSense onayında “en az 20–30 yazı” gibi resmî bir kural yoktur. Pratikte özgün, yazarı ve amacı belli, yeterli kapsam sunan bir içerik arşivi; çalışan navigasyon; Hakkımızda, İletişim, Gizlilik ve Çerez sayfaları gerekir. Beş güçlü yazı teorik olarak onaylanabilirken 50 ince veya kopya yazı reddedilebilir.
+
+“Düşük değerli içerik” reddinin tipik nedenleri:
+
+- Arama sonuçlarını veya haberleri yeniden yazmak, özgün analiz sunmamak
+- Seri üretilmiş, birbirine benzeyen veya kontrol edilmemiş yapay zekâ içerikleri
+- Çok kısa, yarım kalmış kategori ve etiket sayfaları
+- Kaynaksız finans iddiaları, belirsiz yazar ve yayın politikası
+- Reklam göstermek dışında açık kullanıcı değeri bulunmaması
+- Bozuk menü, boş sayfa, yapım aşamasında görünüm
+
+İnceleme birkaç gün sürebilir; Google bazı incelemelerin 2–4 hafta alabileceğini belirtir **[DOĞRULA]**.
+
+**Google Ad Manager**, AdSense’in “daha gelişmiş sürümü” değildir. AdSense bir talep ve para kazanma ürünüdür; Ad Manager ise reklam sunucusudur. Doğrudan sponsorluk, kendi kampanyaları, farklı ağlar, fiyat öncelikleri ve ayrıntılı envanter yönetimi sağlar.
+
+Ağsız doğrudan sponsorlukta marka ile gösterim, süre veya bülten gönderimi üzerinden sözleşme yapılır; yayıncı fatura/e-belge düzenler. Programatik ağ komisyonu olmadığı için birim gelir genellikle daha yüksektir fakat satış, tahsilat, raporlama ve reklam etiketi sorumluluğu yayıncıdadır.
+
+**KARAR: 0–50 bin aylık görüntülenmede yalnızca manuel AdSense ve doğrudan sponsorluk kullan; Ad Manager’a ancak düzenli sponsor veya ikinci talep kaynağı geldiğinde, yönetilen ağlara ise 50–100 bin üzerindeki trafik ve uygun ülke karmasıyla başvur.**
+
+## 2. Teknik Entegrasyon
+
+### 2.1 AdSense: reklamı gerçekten sunan kod
+
+Sayfaya yayıncı kimliğiyle asenkron yükleyici eklenir:
+
+```html
+<script
+  async
+  crossorigin="anonymous"
+  src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXX">
+</script>
+```
+
+Manuel birim:
+
+```html
+<div class="ad-slot ad-slot--article" aria-label="Reklam">
+  <ins
+    class="adsbygoogle"
+    style="display:block"
+    data-ad-client="ca-pub-XXXXXXXXXXXX"
+    data-ad-slot="1234567890"
+    data-ad-format="auto"
+    data-full-width-responsive="true"></ins>
+</div>
+
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+```
+
+**Auto Ads**, sayfayı analiz edip anchor, vignette ve içerik içi reklamları otomatik ekler. Kurulumu kolaydır fakat tipografi ritmini, içerik akışını ve CTA hiyerarşisini bozabilir. Marka görünümünün öncelikli olduğu bu projede manuel birimler tercih edilmelidir.
+
+### 2.2 AdSense Management API v2: kritik ayrım
+
+`AdSense Management API v2` **reklam sunmaz ve sayfaya reklam yerleştirmez**. Reklamı `adsbygoogle.js` sunar. API; hesap, reklam istemcisi, URL kanalı ve performans raporu okumak içindir.
+
+Temel kök adres:
+
+```text
+https://adsense.googleapis.com/v2/
+```
+
+Örnek işlemler:
+
+```text
+GET /v2/accounts
+GET /v2/accounts/{account}/adclients
+GET /v2/accounts/{account}/reports:generate
+GET /v2/accounts/{account}/reports:generateCsv
+GET /v2/accounts/{account}/alerts
+```
+
+Kullanım senaryosu: OAuth 2.0 ile yayıncı izin verir; sunucu erişim ve yenileme jetonunu güvenli tutar; `accounts/{account}/reports:generate` çağrısıyla `DATE`, `PAGE_VIEWS`, `IMPRESSIONS`, `CLICKS`, `ESTIMATED_EARNINGS` gibi boyut ve metrikler çekilir; özel yönetim panelinde gösterilir.
+
+Salt okunur kapsam:
+
+```text
+https://www.googleapis.com/auth/adsense.readonly
+```
+
+Yazma gerektiren hesap işlemleri için daha geniş `.../auth/adsense` kapsamı kullanılabilir. Kullanıcı parolasını almak veya erişim jetonunu tarayıcıda saklamak doğru değildir. Kota proje ve kullanıcı düzeyinde uygulanır; güncel sayı Google Cloud Console’daki API kotası sayfasından alınmalıdır **[DOĞRULA]**. Raporlar toplu ve önbellekli çekilmeli, her sayfa isteğinde API çağrılmamalıdır.
+
+### 2.3 Google Publisher Tag
+
+Ad Manager envanteri için GPT kalıbı:
+
+```html
+<script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+<script>
+  window.googletag = window.googletag || { cmd: [] };
+
+  googletag.cmd.push(() => {
+    googletag.defineSlot(
+      "/1234567/finans_article_rectangle",
+      [[300, 250], [336, 280]],
+      "ad-article-1"
+    ).addService(googletag.pubads());
+
+    googletag.pubads().enableSingleRequest();
+
+    googletag.pubads().enableLazyLoad({
+      fetchMarginPercent: 200,
+      renderMarginPercent: 100,
+      mobileScaling: 2.0
+    });
+
+    googletag.enableServices();
+    googletag.display("ad-article-1");
+  });
+</script>
+```
+
+- `defineSlot`: reklam birimi yolu, izin verilen boyutlar ve DOM kimliğini bağlar.
+- `addService(googletag.pubads())`: slotu yayıncı reklam hizmetine ekler.
+- `enableSingleRequest()`: ilk istek grubundaki slotları tek ağ isteğinde toplar.
+- `display()`: ilgili slotun doldurulmasını başlatır.
+- `refresh([slot])`: mevcut slot için yeni istek yapar. Otomatik yenileme, görünürlük ve minimum süre politikalarına uymalı; Ad Manager’da doğru şekilde beyan edilmelidir **[DOĞRULA]**.
+- `slotRenderEnded` boş veya dolu sonucu; `impressionViewable` Active View görünürlük olayını sağlar.
+
+### 2.4 Prebid.js
+
+Prebid.js, tarayıcı tarafında SSP’lerden eş zamanlı teklifler toplar; kazanan fiyat ana reklam sunucusuna anahtar-değer olarak gönderilir:
+
+```javascript
+pbjs.requestBids({
+  adUnitCodes: ["article-rectangle"],
+  timeout: 1200,
+  bidsBackHandler() {
+    pbjs.setTargetingForGPTAsync(["article-rectangle"]);
+    googletag.pubads().refresh([slot]);
+  }
+});
+```
+
+Tipik zaman aşımı 800–1.500 ms’dir **[DOĞRULA]**. Çok sayıda bidder JavaScript indirme, ağ bağlantısı, ana thread çalışması ve gizlilik tedarikçisi getirir. 100 bin görüntülenmenin altında rekabet artışından elde edilen gelir çoğu zaman operasyon ve performans maliyetini karşılamaz. Kurulum ayrıca Ad Manager satır öğeleri, fiyat kovaları, CMP ve `ads.txt` kayıtları gerektirir.
+
+### 2.5 React, Next.js ve Astro
+
+Next.js’te yükleyici bir kez, `next/script` ile eklenebilir:
+
+```tsx
+<Script
+  id="adsense-loader"
+  strategy="afterInteractive"
+  async
+  src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${publisherId}`}
+  crossOrigin="anonymous"
+/>
+```
+
+`afterInteractive`, ilk React etkileşiminden sonra yükler; görünür ilk reklam için uygundur. `lazyOnload`, tarayıcı boş kaldığında yüklediğinden makale sonu reklamlarında kullanılabilir ama üst reklamlarda gösterimi geciktirir.
+
+Reklam bileşeni client-only olmalı; `useEffect` içinde başlatılmalı ve `useRef` ile bir kez çalışması güvenceye alınmalıdır:
+
+```tsx
+"use client";
+
+export function AdSlot() {
+  const requested = React.useRef(false);
+
+  React.useEffect(() => {
+    if (requested.current) return;
+    requested.current = true;
+
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (error) {
+      console.error("AdSense isteği başarısız", error);
+    }
+  }, []);
+
+  return <ins className="adsbygoogle" data-ad-slot="1234567890" />;
+}
+```
+
+Bu koruma, geliştirmede `React.StrictMode` etkilerin iki kez çalıştırılması tuzağını azaltır. Sunucunun ürettiği DOM ile reklam script’inin değiştirdiği DOM aynı anda hydrate edilirse uyumsuzluk oluşabilir; reklam düğümünün içeriği React tarafından yönetilmemelidir.
+
+GPT kullanan SPA’da rota değişiminden sonra eski slotlar `googletag.destroySlots()` ile kaldırılıp yeni DOM kimlikleriyle tanımlanmalıdır. Aynı slotu yalnızca `refresh()` etmek, yeni sayfa görüntüleme ölçümü ve reklam politikası bakımından ayrıca değerlendirilmelidir. Astro’da reklam bileşeni `client:visible` veya yalnızca tarayıcıda çalışan bir island olarak başlatılabilir.
+
+### 2.6 `ads.txt` ve `sellers.json`
+
+Dosya doğrudan alan adı kökünde yayınlanır:
+
+```text
+https://ornek.com/ads.txt
+```
+
+Örnek:
+
+```text
+google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0
+```
+
+Alanlar sırasıyla reklam sistemi alan adı, yayıncı hesabı, `DIRECT/RESELLER` ilişkisi ve sertifika otoritesi kimliğidir. Eksik veya yanlış kayıt, alıcıların envanteri yetkisiz saymasına; teklif, doluluk ve gelirin düşmesine yol açabilir.
+
+`sellers.json` normalde yayıncının değil, reklam sistemi/SSP’nin kendi alanında barındırdığı satıcı şeffaflığı dosyasıdır. Yayıncı, hesabının doğru satıcı kimliği ve alan adıyla listelendiğini kontrol eder.
+
+**KARAR: T1 için CMS’in resmî AdSense entegrasyonu ve en fazla üç manuel slot; T2 için bileşenleştirilmiş manuel AdSense kullan. GPT’yi doğrudan satış başladığında ekle, Prebid.js’i 100 bin görüntülenmeden önce kurma.**
+
+## 3. Tasarımı ve Core Web Vitals’ı Koruma
+
+Her reklam için istekten önce sabit alan ayrılmalıdır:
+
+```css
+.ad-slot {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 280px;
+  margin-block: 2rem;
+  overflow: hidden;
+  contain: layout paint;
+}
+
+.ad-slot--leaderboard {
+  min-height: 100px;
+  aspect-ratio: 970 / 100;
+}
+```
+
+Reklam boş dönerse kapsayıcıyı aniden çökertmek CLS yaratır. Alan sayfa yüklenirken ayrılmalı; boş sonuç kesinleşince kullanıcı etkileşiminden önce kontrollü kaldırılmalı veya ince bir “reklam alanı” yedeği korunmalıdır.
+
+İyi Core Web Vitals sınırları:
+
+| Metrik | İyi eşik |
+|---|---:|
+| LCP | ≤ 2,5 saniye |
+| INP | ≤ 200 ms |
+| CLS | ≤ 0,1 |
+
+Reklam script’leri DNS/TLS bağlantıları, iframe’ler, ölçüm kodları ve açık artırmalarla LCP ve INP’yi yükseltir. `async`, lazy loading, sınırlı bidder sayısı ve sabit slot yüksekliği zorunludur. Tek hafif ağ ve 2–3 manuel slotla eşikler korunabilir. Yoğun Auto Ads veya client-side header bidding, mobil Lighthouse Performance puanını yaklaşık 5–25 puan düşürebilir **[DOĞRULA]**; cihaz ve laboratuvar koşulu bilinmeden kesin puan söylenemez.
+
+Coalition for Better Ads kapsamında otomatik sesli video, prestitial/countdown reklamı, büyük yapışkan reklam, yüksek reklam yoğunluğu ve içeriği örten formatlardan kaçınılmalıdır. Mobilde ana içeriğin yaklaşık %30’unu aşan reklam yoğunluğu sorunlu deneyim sayılır **[DOĞRULA]**. Bu, her platform için evrensel ve tek başına yeterli bir mevzuat sınırı değildir.
+
+Önerilen yerleşim:
+
+- Başlığın hemen altında değil, giriş ve güven sinyallerinden sonra ilk slot
+- Uzun makalede yaklaşık 5–7 paragrafta bir, en fazla iki içerik içi slot
+- Masaüstünde görünür fakat içerikle çakışmayan 300×250/300×600 sidebar
+- Makale sonunda bir slot
+- Mobilde küçük anchor ancak kapatma düğmesi ve ekran payı kontrol edilirse
+- Newsletter formunun bir ekran öncesi ve sonrasında reklam olmaması
+
+Reklam yaratıcı öğesinin font ve rengi tamamen kontrol edilemez. Tasarım uyumu, reklamın çevresindeki boşluk, arka plan, sınır ve ölçüyle sağlanır. İçerik benzeri/native formatlarda görünür **“Reklam”** veya **“Sponsorlu”** etiketi bulunmalıdır. Karanlık modda slot çevresi uyarlanabilir; üçüncü taraf reklam iframe’inin renkleri zorla değiştirilemez.
+
+Bülten, tekrar ziyaret ve doğrudan sponsorluk yaratır; görüntülü reklam yalnızca o sayfa görüntülemesini paraya çevirir. Aynı viewport’ta reklam ile e-posta CTA’sı yarışıyorsa CTA öncelikli olmalıdır.
+
+**KARAR: Sayfa başına masaüstünde en fazla üç, mobilde en fazla iki manuel reklam kullan; ilk viewport’u ve bülten CTA’sının bulunduğu viewport’u reklamsız bırak.**
+
+## 4. Onay, Gizlilik ve Mevzuat
+
+Consent Mode v2 varsayılan sinyalleri CMP kararı alınmadan önce ayarlanmalıdır:
+
+```javascript
+gtag("consent", "default", {
+  ad_storage: "denied",
+  analytics_storage: "denied",
+  ad_user_data: "denied",
+  ad_personalization: "denied",
+  wait_for_update: 500
+});
+```
+
+Kullanıcı kabul ederse:
+
+```javascript
+gtag("consent", "update", {
+  ad_storage: "granted",
+  analytics_storage: "granted",
+  ad_user_data: "granted",
+  ad_personalization: "granted"
+});
+```
+
+**Basic Mode** rızadan önce Google etiketlerini çalıştırmaz. **Advanced Mode** etiketleri reddedilmiş sinyallerle çalıştırıp çerezsiz ping ve modelleme kullanabilir. KVKK açısından Advanced Mode’un otomatik olarak hukuka uygun olduğu varsayılmamalıdır.
+
+Türkiye AB üyesi olmadığı için GDPR ve IAB TCF v2.2 her Türkiye ziyaretinde otomatik yasal zorunluluk değildir. Ancak AB/AEA, Birleşik Krallık veya İsviçre kullanıcılarına kişiselleştirilmiş Google reklamı sunuluyorsa Google’ın sertifikalı CMP şartları ve ilgili bölgesel hukuk devreye girer.
+
+CMP seçenekleri:
+
+| CMP | Uygun kullanım |
+|---|---|
+| Google Privacy & Messaging | AdSense odaklı, düşük bütçeli başlangıç |
+| Cookiebot | Küçük sitelerde ücretsiz sayfa limiti bulunabilir **[DOĞRULA]** |
+| Didomi | Kurumsal ve ayrıntılı consent yönetimi |
+| Osano | Gizlilik yönetimi; ücretsiz plan koşulları **[DOĞRULA]** |
+
+KVKK’nın **Çerez Uygulamaları Hakkında Rehber** yaklaşımında zorunlu çerezler meşru hukuki sebebe dayanabilir; reklam, profilleme ve davranışsal takip çerezleri için önceden açık rıza gerekir. Rıza kutusu önceden işaretli olmamalı, hizmet reddetmeye bağlanmamalı ve geri çekme kolay olmalıdır. “Reddet” seçeneğinin “Kabul Et” ile eşdeğer erişilebilirlik ve belirginlikte sunulması güvenli uygulamadır; güncel Kurul kararındaki kesin görsel kriter **[DOĞRULA]**.
+
+**Ticari Reklam ve Haksız Ticari Uygulamalar Yönetmeliği** örtülü reklamı yasaklar. Sponsorlu makale, affiliate bağlantı ve ücretli ürün yerleşimi ilk bakışta anlaşılacak biçimde etiketlenmelidir. Yatırım hizmeti izlenimi veren tanıtımlarda SPK düzenlemeleri; banka, kredi, kripto varlık ve getiri iddialarında ilgili özel düzenlemeler ayrıca incelenmelidir. “Kesin kazanç”, yanıltıcı performans ve risk gizleme kullanılmamalıdır.
+
+**KARAR: Türkiye trafiğinde de reklam çerezlerini açık rızadan önce kapalı tut; başlangıçta Google Privacy & Messaging, uluslararası büyümede Google sertifikalı TCF v2.2 CMP kullan.**
+
+## 5. AdSense Ödeme ve Vergi
+
+AdSense ödeme eşiği hesap para birimine bağlıdır. USD hesaplarda eşik 100 USD’dir; TRY hesabı için geçmişte görülen 200 TL eşiğinin güncelliği ödeme profilinde teyit edilmelidir **[DOĞRULA]**. Para birimi sonradan değiştirilemeyebilir. Kesin eşik ve ödeme takvimi AdSense → Ödemeler ekranından kontrol edilmelidir. Bakiye eşik üzerindeyse ve bekletme yoksa ödeme genellikle ayın 21–26’sında işlenir **[DOĞRULA]**. Türkiye’de desteklenen banka havalesi/EFT yöntemi ve hesabın para birimi banka ile doğrulanmalıdır.
+
+Google, ABD kaynaklı gelire uygulanacak stopajı belirlemek için bireysel yayıncıdan `W-8BEN` ister. Form verilmezse Google, kişi ve hesap statüsüne göre azami varsayılan stopajı uygulayabilir; bazı durumlarda dünya çapındaki kazancın %24’üne kadar kesinti riski belirtilir **[DOĞRULA]**. Form verilince stopaj, ABD izleyicisinden gelen gelir ve uygulanabilir Türkiye–ABD vergi anlaşmasına göre hesaplanır **[DOĞRULA]**.
+
+Türkiye’de **Gelir Vergisi Kanunu mükerrer 20/B**, internet ve benzeri elektronik ortamlardaki sosyal içerik üretimi gelirlerine belirli koşullarla istisna sağlayabilir:
+
+1. Vergi dairesinden istisna belgesi alınır.
+2. Türkiye’de bir banka hesabı yalnızca bu gelirler için kullanılır.
+3. Kapsamdaki bütün hasılat bu “münhasır” hesaba gelir.
+4. Banka gelen tutardan %15 gelir vergisi stopajı yapar.
+5. Yıllık hasılat, GVK’nın dördüncü gelir dilimi sınırını aşmamalıdır; 2026 tutarı **[DOĞRULA]**.
+
+Bağımsız finans blogundaki AdSense ve sponsorluk gelirlerinin 20/B kapsamı, faaliyetin niteliğine ve tahsilat biçimine göre mali müşavir veya özelge ile doğrulanmalıdır. KDV, fatura/e-Arşiv, yabancı şirketten tahsilat ve sponsor hizmetleri ayrıca değerlendirilmelidir.
+
+**KARAR: İlk gelirden önce 20/B istisna belgesi ve münhasır banka hesabını mali müşavirle kur; AdSense ödeme profilindeki güncel eşik ile W-8BEN’i doğrudan panelden doğrula.**
+
+## 6. Gerçekçi Gelir Beklentisi
+
+Aşağıdaki değerler Türkiye ağırlıklı finans içeriği için planlama tahminidir; AdSense hesabı, cihaz, sezon, trafik kaynağı ve reklam sayısı nedeniyle **[DOĞRULA]**:
+
+| Aylık görüntülenme | Tahmini sayfa RPM’i | Aylık görüntülü reklam geliri |
+|---:|---:|---:|
+| 10.000 | 0,50–2,50 USD | 5–25 USD |
+| 50.000 | 0,75–3,00 USD | 38–150 USD |
+| 200.000 | 1,00–4,00 USD | 200–800 USD |
+
+ABD finans trafiği aynı kalite ve formatta Türkiye trafiğinin kabaca 3–10 katı RPM üretebilir **[DOĞRULA]**. “Finans nişi yüksek CPM’dir” ifadesi, reklamverenin hedeflediği ülke ve satın alma gücü göz ardı edilirse yanıltıcıdır.
+
+Doğrudan bülten sponsorluğu, küçük fakat ilgili bir kitlede reklamı erken geçebilir. Örneğin 2.000 abone, %40 açılma ve 800 açılma başına 100–400 USD sponsor bedeli elde edebilen niş bir bülten **[DOĞRULA]**, 50.000 Türkiye sayfa görüntülemesinin programatik gelirinden fazla kazanabilir. Buna karşılık satış yapmadan ölçeklenen 200.000+ görüntülenmede programatik reklam daha düzenli taban gelir sağlar.
+
+**KARAR: İlk 50 bin görüntülenmede reklamı ana iş modeli sayma; 1.000–2.000 nitelikli aboneden sonra doğrudan bülten sponsorluğunu programatik reklamdan önce ölçekle.**
+
+## 7. Üç Aşamalı Reklam Yol Haritası
+
+| Trafik | Uygulama |
+|---|---|
+| **0–10 bin/ay** | Reklamsız büyüme veya en fazla makale sonunda bir manuel AdSense slotu; CMP, Consent Mode v2 ve `ads.txt` altyapısını hazırla |
+| **10–50 bin/ay** | En fazla iki içerik içi ve bir makale sonu manuel AdSense slotu; viewability, RPM ve Core Web Vitals ölç; bülten sponsorluğu medya kiti hazırla |
+| **50 bin+/ay** | Doğrudan sponsorluk için Ad Manager; ülke karmasına göre Journey/Ezoic/Setupad testi; 100 bin+ ve yeterli teklif ortağı varsa kontrollü Prebid deneyi |
+
+**KARAR: A bütçesinde manuel AdSense, B bütçesinde Ad Manager + doğrudan satış, C bütçesinde performans denetimli yönetilen ağ/header bidding uygula.**
+
+## 8. Tasarımı Korumak İçin 10 Kural
+
+1. İlk viewport’a reklam koyma.
+2. Her slotun genişlik ve yüksekliğini istekten önce ayır.
+3. Auto Ads’i varsayılan olarak kapalı tut.
+4. Mobilde en fazla iki, masaüstünde en fazla üç slot kullan.
+5. Bülten CTA’sı ile reklamı aynı viewport’ta yarıştırma.
+6. Script’i `async`, `afterInteractive` veya görünürlük tabanlı yükle.
+7. React’te reklam isteğini `useRef` ile tekilleştir.
+8. Boş slotu ani biçimde çökertme.
+9. Native veya sponsorlu içeriği görünür biçimde “Reklam” ya da “Sponsorlu” olarak etiketle.
+10. Her sürümde gerçek mobil cihazla LCP, INP, CLS ve reklam viewability ölç; CLS 0,1’i aşarsa yeni slot ekleme.
+
+**KARAR: Gelir artışı tasarım, güven veya bülten dönüşümündeki kayıptan küçükse reklamı kaldır; markanın ana varlığı sayfa görüntülemesi değil, tekrar gelen okuyucudur.**
+
+## AÇIK SORULAR
+
+1. Trafiğin hedeflenen ülke dağılımı yalnızca Türkiye mi, diaspora ve Avrupa da var mı?
+2. Teknik seviye T1 mi, T2 mi?
+3. Bütçe A, B veya C senaryolarından hangisi?
+4. İlk finans nişi hangisi: kişisel finans, BIST, makro, kripto veya girişim finansmanı?
+5. Öncelikli gelir modeli reklam mı, bülten sponsorluğu mu?
+
+## İLK 5 AKSİYON
+
+1. Reklamsız çalışan makale şablonunda üç sabit slot konumu tasarla.
+2. Gizlilik, çerez, reklam politikası ve sponsorlu içerik etiket standardını yayımla.
+3. Google Privacy & Messaging ile Consent Mode v2’yi kurup reklam çerezlerini varsayılan `denied` yap.
+4. AdSense’e özgün içerik arşivi ve tamamlanmış kurumsal sayfalarla başvur; yalnızca manuel birimleri aç.
+5. Search Console, Core Web Vitals, AdSense RPM ve bülten dönüşümünü aynı haftalık panelde izle.
+hook: Stop
+hook: Stop Completed
+tokens used
+16,888
+# LANE G — Reklam Entegrasyonu, Ad Tech API’leri ve Teknik Yerleşim
+
+> Fiyatlar, ağ kabul koşulları, vergi eşikleri ve ürün politikaları sık değişir. Güncel kaynaktan teyit edilemeyen rakamlar **[DOĞRULA]** ile işaretlenmiştir.
+
+## 1. Reklam Ağları ve Kabul Eşikleri
+
+| Ürün / ağ | Yaklaşık giriş eşiği | Türkiye uyumu | Entegrasyon ve kontrol |
+|---|---:|---|---|
+| **Google AdSense** | Resmî minimum trafik veya yazı sayısı yok | Türkçe ve Türkiye yayıncıları desteklenir | `adsbygoogle.js`, manuel birimler, Auto Ads; manuel kullanımda yüksek tasarım kontrolü |
+| **Google Ad Manager** | Resmî trafik eşiği yok; operasyonel olarak doğrudan satış veya birden fazla talep kaynağı gerektiğinde anlamlı | Uygun | Google Publisher Tag, doğrudan kampanya, AdSense/Ad Exchange talebi; çok yüksek kontrol |
+| **Ezoic** | Eski 10.000 görüntülenme şartı kaldırıldı; küçük siteler için giriş programının güncel koşulları **[DOĞRULA]** | Teknik olarak mümkün; Türkçe envanter talebi ayrıca doğrulanmalı | DNS/CDN veya script entegrasyonu; otomatik yerleşim tasarımı zorlayabilir |
+| **Journey by Mediavine** | Yaklaşık 1.000 aylık oturum ve Grow ölçüm dönemi **[DOĞRULA]** | Kabul mümkün olsa da İngilizce ve yüksek gelirli ülke trafiği avantajlı | Script; orta düzey yerleşim kontrolü |
+| **Mediavine** | Yeni kriter yıllık yaklaşık 5.000 USD reklam geliri **[DOĞRULA]**; eski 50.000 oturum eşiğine güvenilmemeli | Ağırlıklı Türkiye trafiğinin kabul ve gelir potansiyeli düşük olabilir | Yönetilen reklam altyapısı; optimizasyon güçlü, özgürlük sınırlı |
+| **Raptive / eski AdThrive** | Yaklaşık 25.000 aylık sayfa görüntüleme; belirli oranda ABD, Kanada, Birleşik Krallık, Avustralya veya Yeni Zelanda trafiği ister **[DOĞRULA]** | Türkiye ağırlıklı site için zayıf aday | Yönetilen entegrasyon; gelir paylaşımı yaklaşık %75 yayıncı lehine **[DOĞRULA]** |
+| **Setupad** | Yaklaşık 100.000 aylık sayfa görüntüleme **[DOĞRULA]** | Başvuruyu kabul edebilir; Türkçe talep ayrı değerlendirilir | Header bidding script’i; gelir paylaşımı sözleşmeye bağlı |
+| **Snigel** | Yaklaşık 2 milyon görüntülenme veya belirli günlük AdSense geliri **[DOĞRULA]** | Başvuru bazında | Yönetilen header bidding; tasarım kontrolü sözleşme ve yerleşim planına bağlı |
+| **Newor Media** | Yaklaşık 30.000 aylık tekil kullanıcı ve ağırlıklı ABD trafiği **[DOĞRULA]** | Türkiye ağırlıklı yayın için uygun olmayabilir | Script ve yönetilen reklam operasyonu |
+| **Türkiye yerel SSP/ağları** | Ağ bazında değişir | Muhtemelen daha iyi yerel talep | Güncel, güvenilir isim ve sözleşme koşulları araştırılmadan liste verilmemeli **[DOĞRULA]** |
+
+AdSense onayında “en az 20–30 yazı” gibi resmî bir kural yoktur. Pratikte özgün, yazarı ve amacı belli, yeterli kapsam sunan bir içerik arşivi; çalışan navigasyon; Hakkımızda, İletişim, Gizlilik ve Çerez sayfaları gerekir. Beş güçlü yazı teorik olarak onaylanabilirken 50 ince veya kopya yazı reddedilebilir.
+
+“Düşük değerli içerik” reddinin tipik nedenleri:
+
+- Arama sonuçlarını veya haberleri yeniden yazmak, özgün analiz sunmamak
+- Seri üretilmiş, birbirine benzeyen veya kontrol edilmemiş yapay zekâ içerikleri
+- Çok kısa, yarım kalmış kategori ve etiket sayfaları
+- Kaynaksız finans iddiaları, belirsiz yazar ve yayın politikası
+- Reklam göstermek dışında açık kullanıcı değeri bulunmaması
+- Bozuk menü, boş sayfa, yapım aşamasında görünüm
+
+İnceleme birkaç gün sürebilir; Google bazı incelemelerin 2–4 hafta alabileceğini belirtir **[DOĞRULA]**.
+
+**Google Ad Manager**, AdSense’in “daha gelişmiş sürümü” değildir. AdSense bir talep ve para kazanma ürünüdür; Ad Manager ise reklam sunucusudur. Doğrudan sponsorluk, kendi kampanyaları, farklı ağlar, fiyat öncelikleri ve ayrıntılı envanter yönetimi sağlar.
+
+Ağsız doğrudan sponsorlukta marka ile gösterim, süre veya bülten gönderimi üzerinden sözleşme yapılır; yayıncı fatura/e-belge düzenler. Programatik ağ komisyonu olmadığı için birim gelir genellikle daha yüksektir fakat satış, tahsilat, raporlama ve reklam etiketi sorumluluğu yayıncıdadır.
+
+**KARAR: 0–50 bin aylık görüntülenmede yalnızca manuel AdSense ve doğrudan sponsorluk kullan; Ad Manager’a ancak düzenli sponsor veya ikinci talep kaynağı geldiğinde, yönetilen ağlara ise 50–100 bin üzerindeki trafik ve uygun ülke karmasıyla başvur.**
+
+## 2. Teknik Entegrasyon
+
+### 2.1 AdSense: reklamı gerçekten sunan kod
+
+Sayfaya yayıncı kimliğiyle asenkron yükleyici eklenir:
+
+```html
+<script
+  async
+  crossorigin="anonymous"
+  src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXX">
+</script>
+```
+
+Manuel birim:
+
+```html
+<div class="ad-slot ad-slot--article" aria-label="Reklam">
+  <ins
+    class="adsbygoogle"
+    style="display:block"
+    data-ad-client="ca-pub-XXXXXXXXXXXX"
+    data-ad-slot="1234567890"
+    data-ad-format="auto"
+    data-full-width-responsive="true"></ins>
+</div>
+
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+```
+
+**Auto Ads**, sayfayı analiz edip anchor, vignette ve içerik içi reklamları otomatik ekler. Kurulumu kolaydır fakat tipografi ritmini, içerik akışını ve CTA hiyerarşisini bozabilir. Marka görünümünün öncelikli olduğu bu projede manuel birimler tercih edilmelidir.
+
+### 2.2 AdSense Management API v2: kritik ayrım
+
+`AdSense Management API v2` **reklam sunmaz ve sayfaya reklam yerleştirmez**. Reklamı `adsbygoogle.js` sunar. API; hesap, reklam istemcisi, URL kanalı ve performans raporu okumak içindir.
+
+Temel kök adres:
+
+```text
+https://adsense.googleapis.com/v2/
+```
+
+Örnek işlemler:
+
+```text
+GET /v2/accounts
+GET /v2/accounts/{account}/adclients
+GET /v2/accounts/{account}/reports:generate
+GET /v2/accounts/{account}/reports:generateCsv
+GET /v2/accounts/{account}/alerts
+```
+
+Kullanım senaryosu: OAuth 2.0 ile yayıncı izin verir; sunucu erişim ve yenileme jetonunu güvenli tutar; `accounts/{account}/reports:generate` çağrısıyla `DATE`, `PAGE_VIEWS`, `IMPRESSIONS`, `CLICKS`, `ESTIMATED_EARNINGS` gibi boyut ve metrikler çekilir; özel yönetim panelinde gösterilir.
+
+Salt okunur kapsam:
+
+```text
+https://www.googleapis.com/auth/adsense.readonly
+```
+
+Yazma gerektiren hesap işlemleri için daha geniş `.../auth/adsense` kapsamı kullanılabilir. Kullanıcı parolasını almak veya erişim jetonunu tarayıcıda saklamak doğru değildir. Kota proje ve kullanıcı düzeyinde uygulanır; güncel sayı Google Cloud Console’daki API kotası sayfasından alınmalıdır **[DOĞRULA]**. Raporlar toplu ve önbellekli çekilmeli, her sayfa isteğinde API çağrılmamalıdır.
+
+### 2.3 Google Publisher Tag
+
+Ad Manager envanteri için GPT kalıbı:
+
+```html
+<script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+<script>
+  window.googletag = window.googletag || { cmd: [] };
+
+  googletag.cmd.push(() => {
+    googletag.defineSlot(
+      "/1234567/finans_article_rectangle",
+      [[300, 250], [336, 280]],
+      "ad-article-1"
+    ).addService(googletag.pubads());
+
+    googletag.pubads().enableSingleRequest();
+
+    googletag.pubads().enableLazyLoad({
+      fetchMarginPercent: 200,
+      renderMarginPercent: 100,
+      mobileScaling: 2.0
+    });
+
+    googletag.enableServices();
+    googletag.display("ad-article-1");
+  });
+</script>
+```
+
+- `defineSlot`: reklam birimi yolu, izin verilen boyutlar ve DOM kimliğini bağlar.
+- `addService(googletag.pubads())`: slotu yayıncı reklam hizmetine ekler.
+- `enableSingleRequest()`: ilk istek grubundaki slotları tek ağ isteğinde toplar.
+- `display()`: ilgili slotun doldurulmasını başlatır.
+- `refresh([slot])`: mevcut slot için yeni istek yapar. Otomatik yenileme, görünürlük ve minimum süre politikalarına uymalı; Ad Manager’da doğru şekilde beyan edilmelidir **[DOĞRULA]**.
+- `slotRenderEnded` boş veya dolu sonucu; `impressionViewable` Active View görünürlük olayını sağlar.
+
+### 2.4 Prebid.js
+
+Prebid.js, tarayıcı tarafında SSP’lerden eş zamanlı teklifler toplar; kazanan fiyat ana reklam sunucusuna anahtar-değer olarak gönderilir:
+
+```javascript
+pbjs.requestBids({
+  adUnitCodes: ["article-rectangle"],
+  timeout: 1200,
+  bidsBackHandler() {
+    pbjs.setTargetingForGPTAsync(["article-rectangle"]);
+    googletag.pubads().refresh([slot]);
+  }
+});
+```
+
+Tipik zaman aşımı 800–1.500 ms’dir **[DOĞRULA]**. Çok sayıda bidder JavaScript indirme, ağ bağlantısı, ana thread çalışması ve gizlilik tedarikçisi getirir. 100 bin görüntülenmenin altında rekabet artışından elde edilen gelir çoğu zaman operasyon ve performans maliyetini karşılamaz. Kurulum ayrıca Ad Manager satır öğeleri, fiyat kovaları, CMP ve `ads.txt` kayıtları gerektirir.
+
+### 2.5 React, Next.js ve Astro
+
+Next.js’te yükleyici bir kez, `next/script` ile eklenebilir:
+
+```tsx
+<Script
+  id="adsense-loader"
+  strategy="afterInteractive"
+  async
+  src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${publisherId}`}
+  crossOrigin="anonymous"
+/>
+```
+
+`afterInteractive`, ilk React etkileşiminden sonra yükler; görünür ilk reklam için uygundur. `lazyOnload`, tarayıcı boş kaldığında yüklediğinden makale sonu reklamlarında kullanılabilir ama üst reklamlarda gösterimi geciktirir.
+
+Reklam bileşeni client-only olmalı; `useEffect` içinde başlatılmalı ve `useRef` ile bir kez çalışması güvenceye alınmalıdır:
+
+```tsx
+"use client";
+
+export function AdSlot() {
+  const requested = React.useRef(false);
+
+  React.useEffect(() => {
+    if (requested.current) return;
+    requested.current = true;
+
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (error) {
+      console.error("AdSense isteği başarısız", error);
+    }
+  }, []);
+
+  return <ins className="adsbygoogle" data-ad-slot="1234567890" />;
+}
+```
+
+Bu koruma, geliştirmede `React.StrictMode` etkilerin iki kez çalıştırılması tuzağını azaltır. Sunucunun ürettiği DOM ile reklam script’inin değiştirdiği DOM aynı anda hydrate edilirse uyumsuzluk oluşabilir; reklam düğümünün içeriği React tarafından yönetilmemelidir.
+
+GPT kullanan SPA’da rota değişiminden sonra eski slotlar `googletag.destroySlots()` ile kaldırılıp yeni DOM kimlikleriyle tanımlanmalıdır. Aynı slotu yalnızca `refresh()` etmek, yeni sayfa görüntüleme ölçümü ve reklam politikası bakımından ayrıca değerlendirilmelidir. Astro’da reklam bileşeni `client:visible` veya yalnızca tarayıcıda çalışan bir island olarak başlatılabilir.
+
+### 2.6 `ads.txt` ve `sellers.json`
+
+Dosya doğrudan alan adı kökünde yayınlanır:
+
+```text
+https://ornek.com/ads.txt
+```
+
+Örnek:
+
+```text
+google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0
+```
+
+Alanlar sırasıyla reklam sistemi alan adı, yayıncı hesabı, `DIRECT/RESELLER` ilişkisi ve sertifika otoritesi kimliğidir. Eksik veya yanlış kayıt, alıcıların envanteri yetkisiz saymasına; teklif, doluluk ve gelirin düşmesine yol açabilir.
+
+`sellers.json` normalde yayıncının değil, reklam sistemi/SSP’nin kendi alanında barındırdığı satıcı şeffaflığı dosyasıdır. Yayıncı, hesabının doğru satıcı kimliği ve alan adıyla listelendiğini kontrol eder.
+
+**KARAR: T1 için CMS’in resmî AdSense entegrasyonu ve en fazla üç manuel slot; T2 için bileşenleştirilmiş manuel AdSense kullan. GPT’yi doğrudan satış başladığında ekle, Prebid.js’i 100 bin görüntülenmeden önce kurma.**
+
+## 3. Tasarımı ve Core Web Vitals’ı Koruma
+
+Her reklam için istekten önce sabit alan ayrılmalıdır:
+
+```css
+.ad-slot {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 280px;
+  margin-block: 2rem;
+  overflow: hidden;
+  contain: layout paint;
+}
+
+.ad-slot--leaderboard {
+  min-height: 100px;
+  aspect-ratio: 970 / 100;
+}
+```
+
+Reklam boş dönerse kapsayıcıyı aniden çökertmek CLS yaratır. Alan sayfa yüklenirken ayrılmalı; boş sonuç kesinleşince kullanıcı etkileşiminden önce kontrollü kaldırılmalı veya ince bir “reklam alanı” yedeği korunmalıdır.
+
+İyi Core Web Vitals sınırları:
+
+| Metrik | İyi eşik |
+|---|---:|
+| LCP | ≤ 2,5 saniye |
+| INP | ≤ 200 ms |
+| CLS | ≤ 0,1 |
+
+Reklam script’leri DNS/TLS bağlantıları, iframe’ler, ölçüm kodları ve açık artırmalarla LCP ve INP’yi yükseltir. `async`, lazy loading, sınırlı bidder sayısı ve sabit slot yüksekliği zorunludur. Tek hafif ağ ve 2–3 manuel slotla eşikler korunabilir. Yoğun Auto Ads veya client-side header bidding, mobil Lighthouse Performance puanını yaklaşık 5–25 puan düşürebilir **[DOĞRULA]**; cihaz ve laboratuvar koşulu bilinmeden kesin puan söylenemez.
+
+Coalition for Better Ads kapsamında otomatik sesli video, prestitial/countdown reklamı, büyük yapışkan reklam, yüksek reklam yoğunluğu ve içeriği örten formatlardan kaçınılmalıdır. Mobilde ana içeriğin yaklaşık %30’unu aşan reklam yoğunluğu sorunlu deneyim sayılır **[DOĞRULA]**. Bu, her platform için evrensel ve tek başına yeterli bir mevzuat sınırı değildir.
+
+Önerilen yerleşim:
+
+- Başlığın hemen altında değil, giriş ve güven sinyallerinden sonra ilk slot
+- Uzun makalede yaklaşık 5–7 paragrafta bir, en fazla iki içerik içi slot
+- Masaüstünde görünür fakat içerikle çakışmayan 300×250/300×600 sidebar
+- Makale sonunda bir slot
+- Mobilde küçük anchor ancak kapatma düğmesi ve ekran payı kontrol edilirse
+- Newsletter formunun bir ekran öncesi ve sonrasında reklam olmaması
+
+Reklam yaratıcı öğesinin font ve rengi tamamen kontrol edilemez. Tasarım uyumu, reklamın çevresindeki boşluk, arka plan, sınır ve ölçüyle sağlanır. İçerik benzeri/native formatlarda görünür **“Reklam”** veya **“Sponsorlu”** etiketi bulunmalıdır. Karanlık modda slot çevresi uyarlanabilir; üçüncü taraf reklam iframe’inin renkleri zorla değiştirilemez.
+
+Bülten, tekrar ziyaret ve doğrudan sponsorluk yaratır; görüntülü reklam yalnızca o sayfa görüntülemesini paraya çevirir. Aynı viewport’ta reklam ile e-posta CTA’sı yarışıyorsa CTA öncelikli olmalıdır.
+
+**KARAR: Sayfa başına masaüstünde en fazla üç, mobilde en fazla iki manuel reklam kullan; ilk viewport’u ve bülten CTA’sının bulunduğu viewport’u reklamsız bırak.**
+
+## 4. Onay, Gizlilik ve Mevzuat
+
+Consent Mode v2 varsayılan sinyalleri CMP kararı alınmadan önce ayarlanmalıdır:
+
+```javascript
+gtag("consent", "default", {
+  ad_storage: "denied",
+  analytics_storage: "denied",
+  ad_user_data: "denied",
+  ad_personalization: "denied",
+  wait_for_update: 500
+});
+```
+
+Kullanıcı kabul ederse:
+
+```javascript
+gtag("consent", "update", {
+  ad_storage: "granted",
+  analytics_storage: "granted",
+  ad_user_data: "granted",
+  ad_personalization: "granted"
+});
+```
+
+**Basic Mode** rızadan önce Google etiketlerini çalıştırmaz. **Advanced Mode** etiketleri reddedilmiş sinyallerle çalıştırıp çerezsiz ping ve modelleme kullanabilir. KVKK açısından Advanced Mode’un otomatik olarak hukuka uygun olduğu varsayılmamalıdır.
+
+Türkiye AB üyesi olmadığı için GDPR ve IAB TCF v2.2 her Türkiye ziyaretinde otomatik yasal zorunluluk değildir. Ancak AB/AEA, Birleşik Krallık veya İsviçre kullanıcılarına kişiselleştirilmiş Google reklamı sunuluyorsa Google’ın sertifikalı CMP şartları ve ilgili bölgesel hukuk devreye girer.
+
+CMP seçenekleri:
+
+| CMP | Uygun kullanım |
+|---|---|
+| Google Privacy & Messaging | AdSense odaklı, düşük bütçeli başlangıç |
+| Cookiebot | Küçük sitelerde ücretsiz sayfa limiti bulunabilir **[DOĞRULA]** |
+| Didomi | Kurumsal ve ayrıntılı consent yönetimi |
+| Osano | Gizlilik yönetimi; ücretsiz plan koşulları **[DOĞRULA]** |
+
+KVKK’nın **Çerez Uygulamaları Hakkında Rehber** yaklaşımında zorunlu çerezler meşru hukuki sebebe dayanabilir; reklam, profilleme ve davranışsal takip çerezleri için önceden açık rıza gerekir. Rıza kutusu önceden işaretli olmamalı, hizmet reddetmeye bağlanmamalı ve geri çekme kolay olmalıdır. “Reddet” seçeneğinin “Kabul Et” ile eşdeğer erişilebilirlik ve belirginlikte sunulması güvenli uygulamadır; güncel Kurul kararındaki kesin görsel kriter **[DOĞRULA]**.
+
+**Ticari Reklam ve Haksız Ticari Uygulamalar Yönetmeliği** örtülü reklamı yasaklar. Sponsorlu makale, affiliate bağlantı ve ücretli ürün yerleşimi ilk bakışta anlaşılacak biçimde etiketlenmelidir. Yatırım hizmeti izlenimi veren tanıtımlarda SPK düzenlemeleri; banka, kredi, kripto varlık ve getiri iddialarında ilgili özel düzenlemeler ayrıca incelenmelidir. “Kesin kazanç”, yanıltıcı performans ve risk gizleme kullanılmamalıdır.
+
+**KARAR: Türkiye trafiğinde de reklam çerezlerini açık rızadan önce kapalı tut; başlangıçta Google Privacy & Messaging, uluslararası büyümede Google sertifikalı TCF v2.2 CMP kullan.**
+
+## 5. AdSense Ödeme ve Vergi
+
+AdSense ödeme eşiği hesap para birimine bağlıdır. USD hesaplarda eşik 100 USD’dir; TRY hesabı için geçmişte görülen 200 TL eşiğinin güncelliği ödeme profilinde teyit edilmelidir **[DOĞRULA]**. Para birimi sonradan değiştirilemeyebilir. Kesin eşik ve ödeme takvimi AdSense → Ödemeler ekranından kontrol edilmelidir. Bakiye eşik üzerindeyse ve bekletme yoksa ödeme genellikle ayın 21–26’sında işlenir **[DOĞRULA]**. Türkiye’de desteklenen banka havalesi/EFT yöntemi ve hesabın para birimi banka ile doğrulanmalıdır.
+
+Google, ABD kaynaklı gelire uygulanacak stopajı belirlemek için bireysel yayıncıdan `W-8BEN` ister. Form verilmezse Google, kişi ve hesap statüsüne göre azami varsayılan stopajı uygulayabilir; bazı durumlarda dünya çapındaki kazancın %24’üne kadar kesinti riski belirtilir **[DOĞRULA]**. Form verilince stopaj, ABD izleyicisinden gelen gelir ve uygulanabilir Türkiye–ABD vergi anlaşmasına göre hesaplanır **[DOĞRULA]**.
+
+Türkiye’de **Gelir Vergisi Kanunu mükerrer 20/B**, internet ve benzeri elektronik ortamlardaki sosyal içerik üretimi gelirlerine belirli koşullarla istisna sağlayabilir:
+
+1. Vergi dairesinden istisna belgesi alınır.
+2. Türkiye’de bir banka hesabı yalnızca bu gelirler için kullanılır.
+3. Kapsamdaki bütün hasılat bu “münhasır” hesaba gelir.
+4. Banka gelen tutardan %15 gelir vergisi stopajı yapar.
+5. Yıllık hasılat, GVK’nın dördüncü gelir dilimi sınırını aşmamalıdır; 2026 tutarı **[DOĞRULA]**.
+
+Bağımsız finans blogundaki AdSense ve sponsorluk gelirlerinin 20/B kapsamı, faaliyetin niteliğine ve tahsilat biçimine göre mali müşavir veya özelge ile doğrulanmalıdır. KDV, fatura/e-Arşiv, yabancı şirketten tahsilat ve sponsor hizmetleri ayrıca değerlendirilmelidir.
+
+**KARAR: İlk gelirden önce 20/B istisna belgesi ve münhasır banka hesabını mali müşavirle kur; AdSense ödeme profilindeki güncel eşik ile W-8BEN’i doğrudan panelden doğrula.**
+
+## 6. Gerçekçi Gelir Beklentisi
+
+Aşağıdaki değerler Türkiye ağırlıklı finans içeriği için planlama tahminidir; AdSense hesabı, cihaz, sezon, trafik kaynağı ve reklam sayısı nedeniyle **[DOĞRULA]**:
+
+| Aylık görüntülenme | Tahmini sayfa RPM’i | Aylık görüntülü reklam geliri |
+|---:|---:|---:|
+| 10.000 | 0,50–2,50 USD | 5–25 USD |
+| 50.000 | 0,75–3,00 USD | 38–150 USD |
+| 200.000 | 1,00–4,00 USD | 200–800 USD |
+
+ABD finans trafiği aynı kalite ve formatta Türkiye trafiğinin kabaca 3–10 katı RPM üretebilir **[DOĞRULA]**. “Finans nişi yüksek CPM’dir” ifadesi, reklamverenin hedeflediği ülke ve satın alma gücü göz ardı edilirse yanıltıcıdır.
+
+Doğrudan bülten sponsorluğu, küçük fakat ilgili bir kitlede reklamı erken geçebilir. Örneğin 2.000 abone, %40 açılma ve 800 açılma başına 100–400 USD sponsor bedeli elde edebilen niş bir bülten **[DOĞRULA]**, 50.000 Türkiye sayfa görüntülemesinin programatik gelirinden fazla kazanabilir. Buna karşılık satış yapmadan ölçeklenen 200.000+ görüntülenmede programatik reklam daha düzenli taban gelir sağlar.
+
+**KARAR: İlk 50 bin görüntülenmede reklamı ana iş modeli sayma; 1.000–2.000 nitelikli aboneden sonra doğrudan bülten sponsorluğunu programatik reklamdan önce ölçekle.**
+
+## 7. Üç Aşamalı Reklam Yol Haritası
+
+| Trafik | Uygulama |
+|---|---|
+| **0–10 bin/ay** | Reklamsız büyüme veya en fazla makale sonunda bir manuel AdSense slotu; CMP, Consent Mode v2 ve `ads.txt` altyapısını hazırla |
+| **10–50 bin/ay** | En fazla iki içerik içi ve bir makale sonu manuel AdSense slotu; viewability, RPM ve Core Web Vitals ölç; bülten sponsorluğu medya kiti hazırla |
+| **50 bin+/ay** | Doğrudan sponsorluk için Ad Manager; ülke karmasına göre Journey/Ezoic/Setupad testi; 100 bin+ ve yeterli teklif ortağı varsa kontrollü Prebid deneyi |
+
+**KARAR: A bütçesinde manuel AdSense, B bütçesinde Ad Manager + doğrudan satış, C bütçesinde performans denetimli yönetilen ağ/header bidding uygula.**
+
+## 8. Tasarımı Korumak İçin 10 Kural
+
+1. İlk viewport’a reklam koyma.
+2. Her slotun genişlik ve yüksekliğini istekten önce ayır.
+3. Auto Ads’i varsayılan olarak kapalı tut.
+4. Mobilde en fazla iki, masaüstünde en fazla üç slot kullan.
+5. Bülten CTA’sı ile reklamı aynı viewport’ta yarıştırma.
+6. Script’i `async`, `afterInteractive` veya görünürlük tabanlı yükle.
+7. React’te reklam isteğini `useRef` ile tekilleştir.
+8. Boş slotu ani biçimde çökertme.
+9. Native veya sponsorlu içeriği görünür biçimde “Reklam” ya da “Sponsorlu” olarak etiketle.
+10. Her sürümde gerçek mobil cihazla LCP, INP, CLS ve reklam viewability ölç; CLS 0,1’i aşarsa yeni slot ekleme.
+
+**KARAR: Gelir artışı tasarım, güven veya bülten dönüşümündeki kayıptan küçükse reklamı kaldır; markanın ana varlığı sayfa görüntülemesi değil, tekrar gelen okuyucudur.**
+
+## AÇIK SORULAR
+
+1. Trafiğin hedeflenen ülke dağılımı yalnızca Türkiye mi, diaspora ve Avrupa da var mı?
+2. Teknik seviye T1 mi, T2 mi?
+3. Bütçe A, B veya C senaryolarından hangisi?
+4. İlk finans nişi hangisi: kişisel finans, BIST, makro, kripto veya girişim finansmanı?
+5. Öncelikli gelir modeli reklam mı, bülten sponsorluğu mu?
+
+## İLK 5 AKSİYON
+
+1. Reklamsız çalışan makale şablonunda üç sabit slot konumu tasarla.
+2. Gizlilik, çerez, reklam politikası ve sponsorlu içerik etiket standardını yayımla.
+3. Google Privacy & Messaging ile Consent Mode v2’yi kurup reklam çerezlerini varsayılan `denied` yap.
+4. AdSense’e özgün içerik arşivi ve tamamlanmış kurumsal sayfalarla başvur; yalnızca manuel birimleri aç.
+5. Search Console, Core Web Vitals, AdSense RPM ve bülten dönüşümünü aynı haftalık panelde izle.
